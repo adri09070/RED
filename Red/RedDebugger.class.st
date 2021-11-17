@@ -69,6 +69,17 @@ RedDebugger >> debuggerActionModel: anObject [
 	debuggerActionModel := anObject
 ]
 
+{ #category : #api }
+RedDebugger >> findContextFromhash: anInteger [
+
+	^ self debuggerActionModel session stack
+		  detect: [ :c | c hash = anInteger ]
+		  ifNone: [ 
+			  RedContextHashNotFound new
+				  contextHash: anInteger;
+				  signal ]
+]
+
 { #category : #initialization }
 RedDebugger >> initialize [
 	self localServer registerAndNotifyNewDebugger: self
@@ -93,6 +104,21 @@ RedDebugger >> proceed [
 { #category : #api }
 RedDebugger >> restartContext: aContext [ 
 	self debuggerActionModel restartContext: aContext
+]
+
+{ #category : #api }
+RedDebugger >> stack [
+
+	| stackModel stack |
+	stackModel := RedRemoteContextModel new visitContext:
+		              self debuggerActionModel interruptedContext.
+
+	stack := OrderedCollection new.
+	stack addLast: stackModel.
+	[ 
+	(stackModel := stackModel sender) notNil and: [ stack size < 1000 ] ] 
+		whileTrue: [ stack addLast: stackModel ].
+	^ stack
 ]
 
 { #category : #api }

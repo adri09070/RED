@@ -61,6 +61,23 @@ RedDebuggerTest >> testDefaultDebuggerRank [
 ]
 
 { #category : #tests }
+RedDebuggerTest >> testFindContextFromHash [
+
+	| stack |
+	stack := debugger stack.
+	self
+		assert: (debugger findContextFromhash: stack first contextHash)
+		identicalTo: debugSession stack first.
+	self
+		assert: (debugger findContextFromhash: stack second contextHash)
+		identicalTo: debugSession stack second.
+
+	self
+		should: [ debugger findContextFromhash: 1234 ]
+		raise: RedContextHashNotFound
+]
+
+{ #category : #tests }
 RedDebuggerTest >> testProceed [
 	|process result|	
 	process := [result := 1] newProcess.
@@ -79,7 +96,7 @@ RedDebuggerTest >> testProceed [
 ]
 
 { #category : #tests }
-RedDebuggerTest >> testRestart [
+RedDebuggerTest >> testRestartContext [
 	|topContext topPC|
 	topContext := debugger interruptedContext.
 	topPC := topContext pc.
@@ -101,6 +118,20 @@ RedDebuggerTest >> testRestart [
 	debugger restartContext: topContext.
 	self assert: debugger interruptedContext identicalTo: topContext.
 	self assert: debugger interruptedContext pc equals: topPC
+]
+
+{ #category : #tests }
+RedDebuggerTest >> testStack [
+
+	|stack|
+	stack := debugger stack.
+	self assert: stack size equals: 2.
+	self assert: stack first class equals: RedRemoteContextModel.
+	self assert: stack second class equals: RedRemoteContextModel.
+	self assert: stack first sender equals: stack second.
+	
+	self assert: stack first contextHash equals: debugSession stack first hash.
+	self assert: stack second contextHash equals: debugSession stack second hash
 ]
 
 { #category : #tests }
