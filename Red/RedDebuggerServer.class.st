@@ -67,7 +67,7 @@ RedDebuggerServer >> debuggers: anObject [
 { #category : #initialize }
 RedDebuggerServer >> initialize [
 	server := ZnServer on: 8008.
-	server delegate: RedDebuggerServerDelegate new.
+	RedDebuggerServerDelegate on: server.
 	server start
 ]
 

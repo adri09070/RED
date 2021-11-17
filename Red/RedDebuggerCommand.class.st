@@ -1,0 +1,61 @@
+"
+I am an abstract remote debugger command.
+When I am received by a RedDebuggerServerDelegate, I use the local server to find the debugger I was meant for from the debug hash I hold, then my concrete subclasses execute their debug command and return the result.
+"
+Class {
+	#name : #RedDebuggerCommand,
+	#superclass : #Object,
+	#instVars : [
+		'debugSessionHash',
+		'debugger',
+		'contextHash'
+	],
+	#category : #Red
+}
+
+{ #category : #accessing }
+RedDebuggerCommand >> contextHash [
+
+	^ contextHash
+]
+
+{ #category : #accessing }
+RedDebuggerCommand >> contextHash: anObject [
+
+	contextHash := anObject
+]
+
+{ #category : #accessing }
+RedDebuggerCommand >> debugSessionHash [
+
+	^ debugSessionHash
+]
+
+{ #category : #accessing }
+RedDebuggerCommand >> debugSessionHash: anObject [
+
+	debugSessionHash := anObject
+]
+
+{ #category : #accessing }
+RedDebuggerCommand >> debugger [
+
+	^ debugger
+]
+
+{ #category : #accessing }
+RedDebuggerCommand >> debugger: anObject [
+
+	debugger := anObject
+]
+
+{ #category : #executing }
+RedDebuggerCommand >> execute [
+	^self subclassResponsibility 
+]
+
+{ #category : #executing }
+RedDebuggerCommand >> executeWith: server [
+	debugger := server debuggerAt: debugSessionHash.
+	^self execute
+]
