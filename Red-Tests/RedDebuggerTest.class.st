@@ -78,6 +78,14 @@ RedDebuggerTest >> testFindContextFromHash [
 ]
 
 { #category : #tests }
+RedDebuggerTest >> testInterruptedContext [
+
+	self
+		assert: debugger interruptedContext
+		identicalTo: debugSession interruptedContext
+]
+
+{ #category : #tests }
 RedDebuggerTest >> testProceed [
 	|process result|	
 	process := [result := 1] newProcess.
