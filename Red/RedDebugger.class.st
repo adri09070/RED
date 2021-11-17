@@ -91,6 +91,11 @@ RedDebugger >> proceed [
 ]
 
 { #category : #api }
+RedDebugger >> restartContext: aContext [ 
+	self debuggerActionModel restartContext: aContext
+]
+
+{ #category : #api }
 RedDebugger >> stepInto: aContext [
 	self debuggerActionModel stepInto: aContext
 ]

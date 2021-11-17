@@ -79,6 +79,31 @@ RedDebuggerTest >> testProceed [
 ]
 
 { #category : #tests }
+RedDebuggerTest >> testRestart [
+	|topContext topPC|
+	topContext := debugger interruptedContext.
+	topPC := topContext pc.
+	
+	self
+		assert: debugger interruptedContext method
+		identicalTo: StTestDebuggerProvider >> #recursiveMethodCall.
+	
+	debugger stepInto: debugger interruptedContext.
+	debugger stepInto: debugger interruptedContext.
+	
+	self
+		assert: debugger interruptedContext method
+		identicalTo:
+		StTestDebuggerProvider >> #intermediateRecursiveMethodCall.
+	self deny: debugger interruptedContext identicalTo: topContext.
+	self deny: topContext pc equals: topPC.
+	
+	debugger restartContext: topContext.
+	self assert: debugger interruptedContext identicalTo: topContext.
+	self assert: debugger interruptedContext pc equals: topPC
+]
+
+{ #category : #tests }
 RedDebuggerTest >> testStepInto [
 
 	self
