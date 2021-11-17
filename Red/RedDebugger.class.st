@@ -1,3 +1,8 @@
+"
+I am the local instance of a remote, gui-less debugger.
+When an exception occurs, I catch it and register myself to the local server.
+I then await for remote debugging instructions.
+"
 Class {
 	#name : #RedDebugger,
 	#superclass : #Object,

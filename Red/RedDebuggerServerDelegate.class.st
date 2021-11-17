@@ -1,3 +1,7 @@
+"
+I am the Zinc delegate for RedDebuggerServer.
+I basically receive remote debugging instructions and transmit them to my RedDebuggerServer owner.
+"
 Class {
 	#name : #RedDebuggerServerDelegate,
 	#superclass : #ZnDefaultServerDelegate,

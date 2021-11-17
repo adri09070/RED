@@ -1,3 +1,10 @@
+"
+I am the local RED server.
+I am in charge of registering local debuggers available for remote access, to notify potential master server that I have available debuggers waiting, and to receive remote instructions that I transmit to those debuggers.
+
+There is only one of me in the system, but there could be many.
+I am just a prototype for now.
+"
 Class {
 	#name : #RedDebuggerServer,
 	#superclass : #Object,
