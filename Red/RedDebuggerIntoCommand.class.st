@@ -9,8 +9,6 @@ Class {
 
 { #category : #executing }
 RedDebuggerIntoCommand >> execute [
-	|context|
-	context := debugger findContextFromhash: contextHash.
-	debugger stepInto: context.
-	^debugger stack
+	debugger stepInto: context
+	
 ]

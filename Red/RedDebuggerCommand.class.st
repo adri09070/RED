@@ -8,7 +8,8 @@ Class {
 	#instVars : [
 		'debugSessionHash',
 		'debugger',
-		'contextHash'
+		'contextHash',
+		'context'
 	],
 	#category : #Red
 }
@@ -57,5 +58,7 @@ RedDebuggerCommand >> execute [
 { #category : #executing }
 RedDebuggerCommand >> executeWith: server [
 	debugger := server debuggerAt: debugSessionHash.
-	^self execute
+	context := debugger findContextFromhash: contextHash.
+	self execute.
+	^debugger stack
 ]

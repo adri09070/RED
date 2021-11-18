@@ -16,17 +16,26 @@ RedDebuggerServerDelegate class >> on: aRedDebuggerServer [
 	^self new server: aRedDebuggerServer
 ]
 
+{ #category : #responses }
+RedDebuggerServerDelegate >> execute: request [
+
+	| command responseData |
+	command := STON fromString: request contents.
+	responseData := command executeWith: server.
+	^ ZnResponse ok: (ZnEntity text: (STON toString: responseData))
+]
+
 { #category : #initialization }
 RedDebuggerServerDelegate >> initialize [
 
 	self
-		map: 'into' to: #stepInto:;
-		map: 'over' to: #stepOver:;
-		map: 'through' to: #stepThrough:;
-		map: 'proceed' to: #proceed:;
-		map: 'restart' to: #restart:;
-		map: 'stack' to: #stack:;
-		map: 'modifySource' to: #modifySource:
+		map: 'into' to: #execute:;
+		map: 'over' to: #execute:;
+		map: 'through' to: #execute:;
+		map: 'proceed' to: #execute:;
+		map: 'restart' to: #execute:;
+		map: 'stack' to: #execute:;
+		map: 'modifySource' to: #execute:
 ]
 
 { #category : #accessing }
@@ -34,13 +43,4 @@ RedDebuggerServerDelegate >> server: aRedDebuggerServer [
 
 	server := aRedDebuggerServer.
 	aRedDebuggerServer delegate: self
-]
-
-{ #category : #responses }
-RedDebuggerServerDelegate >> stepInto: request [
-
-	| command responseData |
-	command := STON fromString: request contents.
-	responseData := command executeWith: server.
-	^ ZnResponse ok: (ZnEntity text: (STON toString: responseData))
 ]

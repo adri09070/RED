@@ -1,3 +1,6 @@
+"
+I order the debugger holding the debug session represented by the debugSession hash I hold to return the current stack
+"
 Class {
 	#name : #RedDebuggerStackCommand,
 	#superclass : #RedDebuggerCommand,
@@ -6,6 +9,6 @@ Class {
 
 { #category : #executing }
 RedDebuggerStackCommand >> execute [
-		self shouldBeImplemented
+	"I do nothin, the stack is returned by default (for now)"
 			
 ]
