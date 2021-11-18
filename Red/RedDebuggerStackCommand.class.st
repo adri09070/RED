@@ -7,6 +7,11 @@ Class {
 	#category : #Red
 }
 
+{ #category : #options }
+RedDebuggerStackCommand class >> route [
+	^'stack'
+]
+
 { #category : #executing }
 RedDebuggerStackCommand >> execute [
 	"I do nothin, the stack is returned by default (for now)"

@@ -7,6 +7,11 @@ Class {
 	#category : #Red
 }
 
+{ #category : #options }
+RedDebuggerIntoCommand class >> route [
+	^'into'
+]
+
 { #category : #executing }
 RedDebuggerIntoCommand >> execute [
 	debugger stepInto: context

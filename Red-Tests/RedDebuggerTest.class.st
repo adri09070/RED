@@ -44,12 +44,12 @@ RedDebuggerTest >> testDebuggerRegistration [
 	masterServer withServerDo: [ debugger initialize ].
 
 	self
-		assert: (debuggerServer debuggerAt: debugger debugSessionHashString)
+		assert: (debuggerServer debuggerAt: debugger debugSessionHash)
 		identicalTo: debugger.
 
 	self
 		assert: masterServer masterNotification first
-		equals: debugger debugSessionHashString.
+		equals: debugger debugSessionHash.
 	self
 		assert: masterServer masterNotification second
 		equals: debugger interruptedContext printString

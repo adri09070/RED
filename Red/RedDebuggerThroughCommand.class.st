@@ -7,6 +7,11 @@ Class {
 	#category : #Red
 }
 
+{ #category : #options }
+RedDebuggerThroughCommand class >> route [
+	^'through'
+]
+
 { #category : #executing }
 RedDebuggerThroughCommand >> execute [
 	debugger stepThrough: context

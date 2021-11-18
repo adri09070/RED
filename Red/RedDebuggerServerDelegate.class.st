@@ -40,7 +40,6 @@ RedDebuggerServerDelegate >> initialize [
 
 { #category : #accessing }
 RedDebuggerServerDelegate >> server: aRedDebuggerServer [
-
 	server := aRedDebuggerServer.
 	aRedDebuggerServer delegate: self
 ]

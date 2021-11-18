@@ -46,9 +46,13 @@ RedDebuggerServer class >> reset [
 	current := nil
 ]
 
+{ #category : #'API - remotes' }
+RedDebuggerServer class >> url [
+	^ZnUrl fromString: 'http://localhost:8008'
+]
+
 { #category : #debuggers }
 RedDebuggerServer >> debuggerAt: anInteger [
-
 	^self debuggers at: anInteger
 ]
 
@@ -64,10 +68,15 @@ RedDebuggerServer >> debuggers: anObject [
 	debuggers := anObject
 ]
 
+{ #category : #options }
+RedDebuggerServer >> delegate: aZnDelegate [
+	server delegate: aZnDelegate
+]
+
 { #category : #initialize }
 RedDebuggerServer >> initialize [
 	server := ZnServer on: 8008.
-	RedDebuggerServerDelegate on: server.
+	RedDebuggerServerDelegate on: self.
 	server start
 ]
 
@@ -77,7 +86,7 @@ RedDebuggerServer >> notifyMasterForNewOpenedDebugger: aDebugger [
 	ZnEasy
 		put: self class newRemoteDebuggerNotificationURL
 		data: (ZnEntity text: (STON toString: { 
-						  aDebugger debugSessionHashString.
+						  aDebugger debugSessionHash.
 						  aDebugger interruptedContext printString }))
 ]
 
@@ -91,7 +100,7 @@ RedDebuggerServer >> registerAndNotifyNewDebugger: aRedDebugger [
 { #category : #debuggers }
 RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 
-	self debuggers at: aRedDebugger debugSessionHashString put: aRedDebugger
+	self debuggers at: aRedDebugger debugSessionHash put: aRedDebugger
 ]
 
 { #category : #initialize }
@@ -104,4 +113,9 @@ RedDebuggerServer >> reset [
 { #category : #accessing }
 RedDebuggerServer >> server [
 	^ server
+]
+
+{ #category : #accessing }
+RedDebuggerServer >> url [
+	^self class url
 ]

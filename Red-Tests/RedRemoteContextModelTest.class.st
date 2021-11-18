@@ -12,8 +12,8 @@ Class {
 RedRemoteContextModelTest >> assertModel: aModel modelsContext: aContext [
 
 	self assert: aModel contextHash equals: aContext hash.
-	self assert: aModel methodSelector equals: aContext selector.
-	self assert: aModel receiverClassName equals: aContext receiver class name.	
+	self assert: aModel methodSelector equals: (aContext method isCompiledBlock ifTrue:[aContext method sourceNode sourceCode] ifFalse:[aContext method selector]).
+	self assert: aModel receiverClassName equals: (RedRemoteContextModel basicNew printReceiverClassInContext: aContext).
 	self assert: aModel packageName equals: aContext method package name
 	
 
@@ -76,6 +76,66 @@ RedRemoteContextModelTest >> setUp [
 		                  receiver: 1 @ 1
 		                  method: Point >> #+
 		                  arguments: { 1 }
+]
+
+{ #category : #tests }
+RedRemoteContextModelTest >> testModelBlockContext [
+	|model|
+	context := [1+1] asContext.
+	model := RedRemoteContextModel new.
+	model visitContext: context.
+	
+	self assert: model sender equals: nil.	
+	self assertModel: model modelsContext: context
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ]
 
 { #category : #tests }

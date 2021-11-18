@@ -14,6 +14,17 @@ Class {
 	#category : #Red
 }
 
+{ #category : #options }
+RedDebuggerCommand class >> route [
+	^self subclassResponsibility 
+]
+
+{ #category : #executing }
+RedDebuggerCommand >> answer [
+
+	^ debugger stack
+]
+
 { #category : #accessing }
 RedDebuggerCommand >> contextHash [
 
@@ -60,5 +71,11 @@ RedDebuggerCommand >> executeWith: server [
 	debugger := server debuggerAt: debugSessionHash.
 	context := debugger findContextFromhash: contextHash.
 	self execute.
-	^debugger stack
+	^self answer
+]
+
+{ #category : #sending }
+RedDebuggerCommand >> sendTo: aZnURL [
+	aZnURL addPathSegment: self class route.
+	^ZnEasy put: aZnURL data: (ZnEntity text: (STON toString: self))
 ]

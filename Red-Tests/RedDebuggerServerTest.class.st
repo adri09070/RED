@@ -35,7 +35,7 @@ RedDebuggerServerTest >> testDebuggers [
 
 	debuggerServer registerNewDebugger: debugger.
 	self
-		assert: (debuggerServer debuggerAt: debugSession hash printString)
+		assert: (debuggerServer debuggerAt: debugSession hash)
 		identicalTo: debugger
 ]
 
@@ -46,7 +46,7 @@ RedDebuggerServerTest >> testNotifyMasterForNewOpenedDebugger [
 		debuggerServer notifyMasterForNewOpenedDebugger: debugger.
 		self
 			assert: masterServer masterNotification first
-			equals: debugger debugSessionHashString.
+			equals: debugger debugSessionHash.
 		self
 			assert: masterServer masterNotification second
 			equals: debugger interruptedContext printString ]
@@ -58,12 +58,12 @@ RedDebuggerServerTest >> testRegisterAndNotifyNewDebugger [
 	masterServer withServerDo: [ debuggerServer registerAndNotifyNewDebugger: debugger].
 
 	self
-		assert: (debuggerServer debuggerAt: debugger debugSessionHashString)
+		assert: (debuggerServer debuggerAt: debugger debugSessionHash)
 		identicalTo: debugger.
 
 	self
 		assert: masterServer masterNotification first
-		equals: debugger debugSessionHashString.
+		equals: debugger debugSessionHash.
 	self
 		assert: masterServer masterNotification second
 		equals: debugger interruptedContext printString

@@ -7,6 +7,11 @@ Class {
 	#category : #Red
 }
 
+{ #category : #options }
+RedDebuggerOverCommand class >> route [
+	^'over'
+]
+
 { #category : #executing }
 RedDebuggerOverCommand >> execute [
 	debugger stepOver: context

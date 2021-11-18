@@ -7,6 +7,17 @@ Class {
 	#category : #Red
 }
 
+{ #category : #options }
+RedDebuggerProceedCommand class >> route [
+	^'proceed'
+]
+
+{ #category : #executing }
+RedDebuggerProceedCommand >> answer [
+	^{}
+			
+]
+
 { #category : #executing }
 RedDebuggerProceedCommand >> execute [
 	debugger proceed

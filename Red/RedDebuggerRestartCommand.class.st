@@ -7,6 +7,11 @@ Class {
 	#category : #Red
 }
 
+{ #category : #options }
+RedDebuggerRestartCommand class >> route [
+	^'restart'
+]
+
 { #category : #executing }
 RedDebuggerRestartCommand >> execute [
 	debugger restartContext: context
