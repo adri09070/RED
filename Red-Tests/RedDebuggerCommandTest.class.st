@@ -124,7 +124,7 @@ RedDebuggerCommandTest >> testRestartCommand [
 ]
 
 { #category : #tests }
-RedDebuggerCommandTest >> testStepIntoCommand [
+RedDebuggerCommandTest >> testStackCommand [
 	|resultContents|
 	debugSession stepInto.
 	debugSession stepInto.
@@ -141,6 +141,29 @@ RedDebuggerCommandTest >> testStepIntoCommand [
 	result := command sendTo: debuggerServer url.
 	resultContents := STON fromString: result contents.	
 
+	self assertStackModel: resultContents modelsContextStacks: debugSession stack
+]
+
+{ #category : #tests }
+RedDebuggerCommandTest >> testStepIntoCommand [
+	|resultContents|
+	debugSession stepInto.
+	debugSession stepInto.
+	debugSession stepInto.
+	self
+		assert: debugger interruptedContext method
+		identicalTo: StTestDebuggerProvider >> #recursiveMethodCall.
+		
+	command := RedDebuggerIntoCommand new 
+		contextHash: debugger interruptedContext hash;
+		debugSessionHash: debugSession hash;
+		yourself.
+	result := command sendTo: debuggerServer url.
+	resultContents := STON fromString: result contents.
+	
+	self
+		assert: debugger interruptedContext method
+		identicalTo: StTestDebuggerProvider >> #intermediateRecursiveMethodCall.
 	self assertStackModel: resultContents modelsContextStacks: debugSession stack
 ]
 
