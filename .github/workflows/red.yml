@@ -16,6 +16,6 @@ jobs:
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-version: ${{ matrix.smalltalk }}
-      - run: smalltalkci -s ${{ matrix.smalltalk }}
+      - run: smalltalk-image -s ${{ matrix.smalltalk }}
         shell: bash
         timeout-minutes: 15
