@@ -1,32 +1,11 @@
 Class {
 	#name : #RedDebuggerServerTest,
-	#superclass : #TestCase,
+	#superclass : #RedDebuggerTestCase,
 	#instVars : [
-		'debuggerServer',
-		'debugSession',
-		'debugger',
-		'masterNotification',
-		'masterServer'
+		'masterNotification'
 	],
 	#category : #'Red-Tests'
 }
-
-{ #category : #running }
-RedDebuggerServerTest >> setUp [
-
-	super setUp.
-
-	RedDebuggerServer reset.
-	debuggerServer := RedDebuggerServer current.
-
-	debugSession := StTestDebuggerProvider new
-		                debuggerWithRecursiveContext session.
-	debugger := RedDebugger basicNew
-		            debugSession: debugSession;
-		            yourself.
-
-	masterServer := RedMasterTestServer new
-]
 
 { #category : #tests }
 RedDebuggerServerTest >> testDebuggers [
@@ -41,32 +20,25 @@ RedDebuggerServerTest >> testDebuggers [
 
 { #category : #tests }
 RedDebuggerServerTest >> testNotifyMasterForNewOpenedDebugger [
-	
+
 	masterServer withServerDo: [ :server | 
 		debuggerServer notifyMasterForNewOpenedDebugger: debugger.
-		self
-			assert: masterServer masterNotification first
-			equals: debugger debugSessionHash.
-		self
-			assert: masterServer masterNotification second
-			equals: debugger interruptedContext printString ]
+		self assertNewRemoteDebuggerAnnouncement:
+			masterServer masterNotification ]
 ]
 
 { #category : #tests }
 RedDebuggerServerTest >> testRegisterAndNotifyNewDebugger [
-	
-	masterServer withServerDo: [ debuggerServer registerAndNotifyNewDebugger: debugger].
+
+	masterServer withServerDo: [ 
+		debuggerServer registerAndNotifyNewDebugger: debugger ].
 
 	self
 		assert: (debuggerServer debuggerAt: debugger debugSessionHash)
 		identicalTo: debugger.
 
-	self
-		assert: masterServer masterNotification first
-		equals: debugger debugSessionHash.
-	self
-		assert: masterServer masterNotification second
-		equals: debugger interruptedContext printString
+	self assertNewRemoteDebuggerAnnouncement:
+		masterServer masterNotification
 ]
 
 { #category : #tests }

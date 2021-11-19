@@ -1,12 +1,6 @@
 Class {
 	#name : #RedDebuggerTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'debugSession',
-		'debugger',
-		'debuggerServer',
-		'masterServer'
-	],
+	#superclass : #RedDebuggerTestCase,
 	#category : #'Red-Tests'
 }
 
@@ -15,27 +9,8 @@ RedDebuggerTest >> setUp [
 
 	super setUp.
 
-	RedDebuggerServer reset.
-	debuggerServer := RedDebuggerServer current.
-
-	debugSession := StTestDebuggerProvider new
-		                debuggerWithRecursiveContext session.
 	debugSession stepInto.
-	debugSession stepInto.
-		
-	debugger := RedDebugger basicNew
-		            debugSession: debugSession;
-		            yourself.
-	
-	masterServer := RedMasterTestServer new
-]
-
-{ #category : #running }
-RedDebuggerTest >> tearDown [
-
-	debugger debugSession terminate.
-
-	super tearDown
+	debugSession stepInto
 ]
 
 { #category : #tests }
@@ -46,13 +21,8 @@ RedDebuggerTest >> testDebuggerRegistration [
 	self
 		assert: (debuggerServer debuggerAt: debugger debugSessionHash)
 		identicalTo: debugger.
-
-	self
-		assert: masterServer masterNotification first
-		equals: debugger debugSessionHash.
-	self
-		assert: masterServer masterNotification second
-		equals: debugger interruptedContext printString
+	self assertNewRemoteDebuggerAnnouncement:
+		masterServer masterNotification
 ]
 
 { #category : #tests }

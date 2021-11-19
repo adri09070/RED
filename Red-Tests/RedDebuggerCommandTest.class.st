@@ -1,65 +1,19 @@
 Class {
 	#name : #RedDebuggerCommandTest,
-	#superclass : #TestCase,
+	#superclass : #RedDebuggerTestCase,
 	#instVars : [
-		'debugSession',
-		'debugger',
-		'debuggerServer',
 		'command',
 		'result'
 	],
 	#category : #'Red-Tests'
 }
 
-{ #category : #asserting }
-RedDebuggerCommandTest >> assertModel: aModel modelsContext: aContext [
-
-	self flag: 'duplicated from RedRemoteContextModelTest'.
-
-	self assert: aModel contextHash equals: aContext hash.
-	self
-		assert: aModel methodSelector
-		equals: (aContext method isCompiledBlock
-				 ifTrue: [ aContext method sourceNode sourceCode ]
-				 ifFalse: [ aContext method selector ]).
-	self
-		assert: aModel receiverClassName
-		equals: (RedRemoteContextModel basicNew printReceiverClassInContext: aContext).
-	self assert: aModel packageName equals: aContext method package name
-]
-
-{ #category : #tests }
-RedDebuggerCommandTest >> assertStackModel: aStackModel modelsContextStacks: aStackOfContexts [
-
-	self assert: aStackModel size equals: aStackOfContexts size.
-	1 to: aStackModel size do: [ :i | 
-		self
-			assertModel: (aStackModel at: i)
-			modelsContext: (debugSession stack at: i) ]
-]
-
 { #category : #running }
 RedDebuggerCommandTest >> setUp [
 
 	super setUp.
 
-	RedDebuggerServer reset.
-	debuggerServer := RedDebuggerServer current.
-
-	debugSession := StTestDebuggerProvider new
-		                debuggerWithRecursiveContext session.
-	debugger := RedDebugger basicNew
-		            debugSession: debugSession;
-		            yourself.
 	debuggerServer registerNewDebugger: debugger
-]
-
-{ #category : #running }
-RedDebuggerCommandTest >> tearDown [
-
-	debugger debugSession terminate.
-
-	super tearDown
 ]
 
 { #category : #tests }

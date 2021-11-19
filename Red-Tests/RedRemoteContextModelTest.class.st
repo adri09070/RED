@@ -1,6 +1,6 @@
 Class {
 	#name : #RedRemoteContextModelTest,
-	#superclass : #TestCase,
+	#superclass : #RedDebuggerTestCase,
 	#instVars : [
 		'context',
 		'sender'
@@ -8,74 +8,21 @@ Class {
 	#category : #'Red-Tests'
 }
 
-{ #category : #tests }
-RedRemoteContextModelTest >> assertModel: aModel modelsContext: aContext [
-
-	self assert: aModel contextHash equals: aContext hash.
-	self assert: aModel methodSelector equals: (aContext method isCompiledBlock ifTrue:[aContext method sourceNode sourceCode] ifFalse:[aContext method selector]).
-	self assert: aModel receiverClassName equals: (RedRemoteContextModel basicNew printReceiverClassInContext: aContext).
-	self assert: aModel packageName equals: aContext method package name
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]
-
 { #category : #running }
 RedRemoteContextModelTest >> setUp [
 
 	super setUp.
 
 	sender := Context
-		           sender: nil
+		          sender: nil
+		          receiver: 1 @ 1
+		          method: Point >> #+
+		          arguments: { 1 }.
+	context := Context
+		           sender: sender
 		           receiver: 1 @ 1
 		           method: Point >> #+
-		           arguments: { 1 }.
-	context := Context
-		                  sender: sender
-		                  receiver: 1 @ 1
-		                  method: Point >> #+
-		                  arguments: { 1 }
+		           arguments: { 1 }
 ]
 
 { #category : #tests }
