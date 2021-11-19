@@ -34,6 +34,12 @@ RedRemoteContextModel >> contextHash: anObject [
 	contextHash := anObject
 ]
 
+{ #category : #accessing }
+RedRemoteContextModel >> doItSource [
+
+	^ doItSource
+]
+
 { #category : #searching }
 RedRemoteContextModel >> findMethod [
 
@@ -49,16 +55,16 @@ RedRemoteContextModel >> findSmalltalkClass [
 	^class
 ]
 
-{ #category : #accessing }
+{ #category : #visiting }
 RedRemoteContextModel >> isBlock [
 
 	^isBlock
 ]
 
-{ #category : #accessing }
-RedRemoteContextModel >> isBlock: anObject [
+{ #category : #visiting }
+RedRemoteContextModel >> isDoIt [
 
-	isBlock := anObject
+	^ methodSelector = 'doIt'
 ]
 
 { #category : #accessing }
@@ -71,6 +77,12 @@ RedRemoteContextModel >> methodSelector [
 RedRemoteContextModel >> packageName [
 
 	^ packageName
+]
+
+{ #category : #accessing }
+RedRemoteContextModel >> pc [
+
+	^ pc
 ]
 
 { #category : #accessing }
@@ -103,6 +115,8 @@ RedRemoteContextModel >> visitContext: aContext [
 	methodSelector := isBlock
 		                  ifTrue: [ aContext method sourceNode sourceCode ]
 		                  ifFalse: [ aContext method selector ].
+	self isDoIt ifTrue:[doItSource := aContext method sourceNode sourceNode].
+	pc := aContext pc.
 	packageName := aContext method package
 		               ifNil: [ '-' ]
 		               ifNotNil: [ :p | p name asString ].
