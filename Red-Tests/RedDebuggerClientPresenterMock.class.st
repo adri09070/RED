@@ -2,7 +2,7 @@
 I am a mock to test registration to announcements from RedDebuggerClient instances.
 "
 Class {
-	#name : #RedDebuggerClientMockPresenter,
+	#name : #RedDebuggerClientPresenterMock,
 	#superclass : #Object,
 	#instVars : [
 		'notification'
@@ -11,13 +11,13 @@ Class {
 }
 
 { #category : #accessing }
-RedDebuggerClientMockPresenter >> newRemoteDebugger: anObject [
+RedDebuggerClientPresenterMock >> newRemoteDebugger: anObject [
 
 	notification := anObject
 ]
 
 { #category : #accessing }
-RedDebuggerClientMockPresenter >> notification [
+RedDebuggerClientPresenterMock >> notification [
 
 	^ notification
 ]

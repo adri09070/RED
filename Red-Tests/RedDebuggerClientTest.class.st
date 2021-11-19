@@ -37,7 +37,7 @@ RedDebuggerClientTest >> testNewRemoteDebugger [
 
 	|presenter notification|
 	
-	presenter := RedDebuggerClientMockPresenter new.
+	presenter := RedDebuggerClientPresenterMock new.
 	client registerForNewDebuggerAnnouncements: presenter.
 	
 	self assert: client registeredDebuggers isEmpty.
@@ -56,7 +56,7 @@ RedDebuggerClientTest >> testRegisterForNewDebuggerAnnouncements [
 
 	|presenter|
 	
-	presenter := RedDebuggerClientMockPresenter new.
+	presenter := RedDebuggerClientPresenterMock new.
 	client registerForNewDebuggerAnnouncements: presenter.
 	client announcer announce: newDebuggerNotification.
 	
