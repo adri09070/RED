@@ -12,13 +12,33 @@ Class {
 		'registeredDebuggers',
 		'announcer'
 	],
+	#classInstVars : [
+		'current'
+	],
 	#category : #Red
 }
+
+{ #category : #accessing }
+RedDebuggerClient class >> current [
+	^current ifNil:[current := self new]
+]
+
+{ #category : #accessing }
+RedDebuggerClient class >> reset [
+	<script>
+	current ifNotNil: [ current stop ].
+	current := nil
+]
 
 { #category : #accessing }
 RedDebuggerClient >> announcer [
 
 	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #initialization }
+RedDebuggerClient >> initialize [
+	self server
 ]
 
 { #category : #server }
@@ -30,10 +50,36 @@ RedDebuggerClient >> newRemoteDebugger: aNewRemoteDebuggerOpeningAnnouncement [
 	self announcer announce: aNewRemoteDebuggerOpeningAnnouncement
 ]
 
+{ #category : #'remote commands' }
+RedDebuggerClient >> proceed: remoteContextModel inSession: remote [
+
+	| command response |
+	self flag: 'untested'.	
+	command := RedDebuggerProceedCommand new.
+	command debugSessionHash: remote sessionHash.
+	command contextHash: remoteContextModel contextHash.
+	response := command sendTo: remote remoteUrl.
+	self registeredDebuggers removeKey: remote sessionHash.
+	self announcer announce: RedRemoteDebuggerClosed new
+]
+
+{ #category : #'remote commands' }
+RedDebuggerClient >> proceedSession: remote [
+
+	| command response stack|
+	self flag: 'untested'.
+	command := RedDebuggerStackCommand new.
+	command debugSessionHash: remote sessionHash.
+	response := command sendTo: remote remoteUrl.
+	stack := STON fromString: response contents.
+	self proceed: stack first inSession: remote
+]
+
 { #category : #announcements }
 RedDebuggerClient >> registerForNewDebuggerAnnouncements: anObject [
 	
-	self announcer weak when: RedNewRemoteDebugger send: #newRemoteDebugger: to: anObject
+	self announcer weak when: RedNewRemoteDebugger send: #newRemoteDebugger: to: anObject.
+	self announcer weak when: RedRemoteDebuggerClosed send: #remoteDebuggerRemoved to: anObject
 ]
 
 { #category : #accessing }

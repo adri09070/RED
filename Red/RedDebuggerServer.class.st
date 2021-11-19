@@ -42,6 +42,7 @@ RedDebuggerServer class >> remoteDebuggerMasterURL [
 
 { #category : #initialization }
 RedDebuggerServer class >> reset [
+	<script>
 	self current reset.
 	current := nil
 ]
@@ -53,7 +54,9 @@ RedDebuggerServer class >> url [
 
 { #category : #debuggers }
 RedDebuggerServer >> debuggerAt: anInteger [
-	^self debuggers at: anInteger
+
+	self flag: 'untested'.
+	^ self debuggers at: anInteger
 ]
 
 { #category : #accessing }
@@ -82,6 +85,7 @@ RedDebuggerServer >> initialize [
 
 { #category : #debuggers }
 RedDebuggerServer >> newRemoteDebuggerNotificationFor: aDebugger [
+	self flag: 'untested'.
 
 	^ RedNewRemoteDebugger new
 		  sessionHash: aDebugger debugSessionHash;
@@ -108,7 +112,14 @@ RedDebuggerServer >> registerAndNotifyNewDebugger: aRedDebugger [
 { #category : #debuggers }
 RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 
+	self flag: 'untested'.
 	self debuggers at: aRedDebugger debugSessionHash put: aRedDebugger
+]
+
+{ #category : #debuggers }
+RedDebuggerServer >> removeDebugger: aDebugSessionHash [
+	self flag: 'untested'.
+	self debuggers removeKey: aDebugSessionHash
 ]
 
 { #category : #initialize }

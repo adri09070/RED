@@ -19,7 +19,7 @@ Class {
 RedDebugger class >> debugSession: aDebugSession [
 
 	^ self basicNew
-		  debugNewSession: aDebugSession;
+		  debugSession: aDebugSession;
 		  initialize
 ]
 
@@ -98,6 +98,7 @@ RedDebugger >> localServer [
 
 { #category : #api }
 RedDebugger >> proceed [
+	self localServer removeDebugger: self debugSessionHash. 
 	self debuggerActionModel proceedDebugSession
 ]
 

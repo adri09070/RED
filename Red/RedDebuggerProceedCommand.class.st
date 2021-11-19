@@ -23,3 +23,8 @@ RedDebuggerProceedCommand >> execute [
 	debugger proceed
 			
 ]
+
+{ #category : #executing }
+RedDebuggerProceedCommand >> findContext [
+	"I don't need any context"
+]

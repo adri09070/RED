@@ -68,10 +68,17 @@ RedDebuggerCommand >> execute [
 
 { #category : #executing }
 RedDebuggerCommand >> executeWith: server [
+
 	debugger := server debuggerAt: debugSessionHash.
-	context := debugger findContextFromhash: contextHash.
+	self findContext.
 	self execute.
-	^self answer
+	^ self answer
+]
+
+{ #category : #executing }
+RedDebuggerCommand >> findContext [
+
+	context := debugger findContextFromhash: contextHash
 ]
 
 { #category : #sending }
