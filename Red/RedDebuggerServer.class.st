@@ -81,13 +81,21 @@ RedDebuggerServer >> initialize [
 ]
 
 { #category : #debuggers }
+RedDebuggerServer >> newRemoteDebuggerNotificationFor: aDebugger [
+
+	^ RedNewRemoteDebugger new
+		  sessionHash: aDebugger debugSessionHash;
+		  sessionDescription: aDebugger interruptedContext printString;
+		  remoteUrl: self url;
+		  yourself
+]
+
+{ #category : #debuggers }
 RedDebuggerServer >> notifyMasterForNewOpenedDebugger: aDebugger [
 
 	ZnEasy
 		put: self class newRemoteDebuggerNotificationURL
-		data: (ZnEntity text: (STON toString: { 
-						  aDebugger debugSessionHash.
-						  aDebugger interruptedContext printString }))
+		data: (ZnEntity text: (STON toString: (self newRemoteDebuggerNotificationFor: aDebugger)))
 ]
 
 { #category : #debuggers }
