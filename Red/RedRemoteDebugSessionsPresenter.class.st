@@ -6,9 +6,8 @@ I present the available remote debug sessions and allows for quick actions:
 "
 Class {
 	#name : #RedRemoteDebugSessionsPresenter,
-	#superclass : #SpPresenter,
+	#superclass : #RedAbstractDebuggerPresenter,
 	#instVars : [
-		'toolbar',
 		'sessions'
 	],
 	#category : #Red
@@ -39,7 +38,7 @@ RedRemoteDebugSessionsPresenter class >> defaultSpec [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : #building }
 RedRemoteDebugSessionsPresenter >> buildToolbar [
 
 	| commandGroup |
@@ -62,15 +61,6 @@ RedRemoteDebugSessionsPresenter >> buildToolbar [
 ]
 
 { #category : #initialization }
-RedRemoteDebugSessionsPresenter >> buildToolbarButtonLabeled: buttonLabel action: aBlock iconNamed: aSymbol [
-
-	^ ((CmBlockCommand forContext: self)
-		   name: buttonLabel;
-		   block: aBlock;
-		   yourself) asSpecCommandWithIconNamed: aSymbol
-]
-
-{ #category : #initialization }
 RedRemoteDebugSessionsPresenter >> initialize [
 	super initialize.
 	RedDebuggerClient current registerForNewDebuggerAnnouncements: self
@@ -79,7 +69,7 @@ RedRemoteDebugSessionsPresenter >> initialize [
 { #category : #initialization }
 RedRemoteDebugSessionsPresenter >> initializePresenters [
 
-	toolbar := self buildToolbar.
+	super initializePresenters.
 
 	sessions := self newTable.
 	sessions addColumn: ((SpImageTableColumn title: '' evaluated: [ :context | self iconNamed: #remote])
