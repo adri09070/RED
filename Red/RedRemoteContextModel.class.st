@@ -17,10 +17,17 @@ Class {
 		'packageName',
 		'isBlock',
 		'pc',
-		'doItSource'
+		'doItSource',
+		'blockSource'
 	],
 	#category : #Red
 }
+
+{ #category : #accessing }
+RedRemoteContextModel >> blockSource [
+
+	^ blockSource
+]
 
 { #category : #accessing }
 RedRemoteContextModel >> contextHash [
@@ -112,9 +119,8 @@ RedRemoteContextModel >> visitContext: aContext [
 	contextHash := aContext hash.
 	receiverClassName := aContext receiver class name.
 	isBlock := aContext method isCompiledBlock.
-	methodSelector := isBlock
-		                  ifTrue: [ aContext method sourceNode sourceCode ]
-		                  ifFalse: [ aContext method selector ].
+	methodSelector := aContext method selector.
+	self isBlock ifTrue:[blockSource := aContext method sourceNode sourceCode].
 	self isDoIt ifTrue:[doItSource := aContext method sourceNode sourceNode].
 	pc := aContext pc.
 	packageName := aContext method package

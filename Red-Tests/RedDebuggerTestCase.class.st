@@ -16,13 +16,13 @@ RedDebuggerTestCase >> assertModel: aModel modelsContext: aContext [
 	self assert: aModel contextHash equals: aContext hash.
 	self
 		assert: aModel methodSelector
-		equals: (aContext method isCompiledBlock
-				 ifTrue: [ aContext method sourceNode sourceCode ]
-				 ifFalse: [ aContext method selector ]).
+		equals: aContext method selector.
 	self
 		assert: aModel receiverClassName
 		equals: aContext receiver class name.
-	self assert: aModel packageName equals: aContext method package name
+	self assert: aModel packageName equals: aContext method package name.
+	
+	self assert: aModel pc equals: aContext pc
 ]
 
 { #category : #tests }

@@ -135,9 +135,16 @@ RedRemoteDebuggerPresenter >> title [
 { #category : #updating }
 RedRemoteDebuggerPresenter >> updateCodeFromContext: aRemoteContext [
 
-	| source |
+	| source selectionInterval |
 	source := aRemoteContext isBlock
 		          ifTrue: [ aRemoteContext methodSelector ]
 		          ifFalse: [ aRemoteContext findMethod sourceCode ].
-	code text: source
+	code text: source.
+	selectionInterval := aRemoteContext findMethod rangeForPC: aRemoteContext pc.
+	code removeAllTextSegmentDecorations.
+	code addTextSegmentDecoration:
+		(SpTextPresenterDecorator forHighlight
+			 interval: (selectionInterval first to: selectionInterval last + 1);
+			 yourself).
+	code beForMethod: aRemoteContext findMethod
 ]
