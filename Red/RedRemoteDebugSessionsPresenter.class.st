@@ -7,5 +7,112 @@ I present the available remote debug sessions and allows for quick actions:
 Class {
 	#name : #RedRemoteDebugSessionsPresenter,
 	#superclass : #SpPresenter,
+	#instVars : [
+		'toolbar',
+		'sessions'
+	],
 	#category : #Red
 }
+
+{ #category : #all }
+RedRemoteDebugSessionsPresenter class >> debugWorldMenuOn: aBuilder [
+
+	<worldMenu>
+	(aBuilder group: #Red)
+		parent: #Debug;
+		order: 0;
+		withSeparatorAfter.
+	(aBuilder item: 'Remote Debugger Sessions')
+		order: 1;
+		icon: (self iconNamed: #remote);
+		parent: #Red;
+		help: 'Reset the counters on the executions counters.';
+		action: [ self new openWithSpec ]
+]
+
+{ #category : #specs }
+RedRemoteDebugSessionsPresenter class >> defaultSpec [
+
+	^ SpBoxLayout newTopToBottom
+		  add: #toolbar expand: false;
+		  add: #sessions;
+		  yourself
+]
+
+{ #category : #initialization }
+RedRemoteDebugSessionsPresenter >> buildToolbar [
+
+	| commandGroup |
+	commandGroup := CmCommandGroup forSpec.
+	commandGroup register: (self
+			 buildToolbarButtonLabeled: 'Proceed'
+			 action: [ :context | context proceedSelection ]
+			 iconNamed: #glamorousGo).
+
+	commandGroup register: (self
+			 buildToolbarButtonLabeled: 'Terminate'
+			 action: [ :context | context terminateSelection ]
+			 iconNamed: #changeRemove).
+
+	commandGroup register: (self
+			 buildToolbarButtonLabeled: 'Debug'
+			 action: [ :context | context debugSelection ]
+			 iconNamed: #glamorousBug).
+	^ commandGroup asToolbarPresenter
+]
+
+{ #category : #initialization }
+RedRemoteDebugSessionsPresenter >> buildToolbarButtonLabeled: buttonLabel action: aBlock iconNamed: aSymbol [
+
+	^ ((CmBlockCommand forContext: self)
+		   name: buttonLabel;
+		   block: aBlock;
+		   yourself) asSpecCommandWithIconNamed: aSymbol
+]
+
+{ #category : #initialization }
+RedRemoteDebugSessionsPresenter >> initialize [
+	super initialize.
+	RedDebuggerClient current registerForNewDebuggerAnnouncements: self
+]
+
+{ #category : #initialization }
+RedRemoteDebugSessionsPresenter >> initializePresenters [
+
+	toolbar := self buildToolbar.
+
+	sessions := self newTable.
+	sessions addColumn: ((SpImageTableColumn title: '' evaluated: [ :context | self iconNamed: #remote])
+			 width: 8;
+			 sortFunction: nil;
+			 yourself).
+	sessions addColumn: ((SpStringTableColumn title: 'Session' evaluated: [ :item | item sessionDescription ])
+			 sortFunction: nil;
+			 yourself).
+	sessions addColumn: ((SpStringTableColumn title: 'URL' evaluated: [ :item | item remoteUrl ])
+			 sortFunction: nil;
+			 yourself).
+	sessions items: RedDebuggerClient current registeredDebuggers values
+]
+
+{ #category : #announcements }
+RedRemoteDebugSessionsPresenter >> newRemoteDebugger: anObject [
+
+	sessions items: RedDebuggerClient current registeredDebuggers values
+]
+
+{ #category : #actions }
+RedRemoteDebugSessionsPresenter >> proceedSelection [
+	RedDebuggerClient current proceedSession: sessions selectedItem
+]
+
+{ #category : #announcements }
+RedRemoteDebugSessionsPresenter >> remoteDebuggerRemoved [
+
+	sessions items: RedDebuggerClient current registeredDebuggers values
+]
+
+{ #category : #initialization }
+RedRemoteDebugSessionsPresenter >> title [
+	 ^'Red sessions'
+]
