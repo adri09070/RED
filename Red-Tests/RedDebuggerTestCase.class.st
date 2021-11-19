@@ -21,7 +21,7 @@ RedDebuggerTestCase >> assertModel: aModel modelsContext: aContext [
 				 ifFalse: [ aContext method selector ]).
 	self
 		assert: aModel receiverClassName
-		equals: (RedRemoteContextModel basicNew printReceiverClassInContext: aContext).
+		equals: aContext receiver class name.
 	self assert: aModel packageName equals: aContext method package name
 ]
 

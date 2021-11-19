@@ -15,7 +15,9 @@ Class {
 		'receiverClassName',
 		'methodSelector',
 		'packageName',
-		'isBlock'
+		'isBlock',
+		'pc',
+		'doItSource'
 	],
 	#category : #Red
 }
@@ -69,22 +71,6 @@ RedRemoteContextModel >> methodSelector [
 RedRemoteContextModel >> packageName [
 
 	^ packageName
-]
-
-{ #category : #printing }
-RedRemoteContextModel >> printReceiverClassInContext: aContext [
-
-	| receiverClass methodClass |
-	receiverClass := aContext receiver class.
-	methodClass := aContext method methodClass.
-	receiverClass == methodClass ifTrue: [ ^ receiverClass name ].
-	^ (WriteStream on: String new)
-		  nextPutAll: receiverClass name;
-		  space;
-		  nextPut: $(;
-		  nextPutAll: methodClass name;
-		  nextPut: $);
-		  contents
 ]
 
 { #category : #accessing }
