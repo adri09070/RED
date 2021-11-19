@@ -119,7 +119,7 @@ RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 { #category : #debuggers }
 RedDebuggerServer >> removeDebugger: aDebugSessionHash [
 	self flag: 'untested'.
-	self debuggers removeKey: aDebugSessionHash
+	self debuggers removeKey: aDebugSessionHash ifAbsent:[]
 ]
 
 { #category : #initialize }

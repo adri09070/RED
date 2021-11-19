@@ -17,3 +17,8 @@ RedDebuggerStackCommand >> execute [
 	"I do nothin, the stack is returned by default (for now)"
 			
 ]
+
+{ #category : #executing }
+RedDebuggerStackCommand >> findContext [
+	"I don't need any context"
+]
