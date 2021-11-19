@@ -18,7 +18,8 @@ Class {
 		'isBlock',
 		'pc',
 		'doItSource',
-		'blockSource'
+		'blockSource',
+		'selectionInterval'
 	],
 	#category : #Red
 }
@@ -49,29 +50,30 @@ RedRemoteContextModel >> doItSource [
 
 { #category : #searching }
 RedRemoteContextModel >> findMethod [
-
+	self flag: 'untested'.
 	^ self findSmalltalkClass lookupSelector: methodSelector
 ]
 
 { #category : #searching }
 RedRemoteContextModel >> findSmalltalkClass [
 	|tokens class|
+	self flag: 'untested'.
 	tokens := receiverClassName splitOn: Character space.
 	class := Smalltalk at: tokens first asSymbol.
 	tokens last = 'class' ifTrue:[^class class].
 	^class
 ]
 
-{ #category : #visiting }
+{ #category : #testing }
 RedRemoteContextModel >> isBlock [
 
 	^isBlock
 ]
 
-{ #category : #visiting }
+{ #category : #testing }
 RedRemoteContextModel >> isDoIt [
 
-	^ methodSelector = 'doIt'
+	^ methodSelector = 'DoIt'
 ]
 
 { #category : #accessing }
@@ -99,6 +101,21 @@ RedRemoteContextModel >> receiverClassName [
 ]
 
 { #category : #accessing }
+RedRemoteContextModel >> selectionInterval [
+
+	^ selectionInterval
+]
+
+{ #category : #visiting }
+RedRemoteContextModel >> selectionIntervalFor: aContext [
+
+	| node |
+	self flag: 'untested'.
+	node := aContext method sourceNodeForPC: aContext pc.
+	^ node start to: node stop + 1
+]
+
+{ #category : #accessing }
 RedRemoteContextModel >> sender [
 
 	^ sender
@@ -114,6 +131,7 @@ RedRemoteContextModel >> sender: anObject [
 RedRemoteContextModel >> visitContext: aContext [
 
 	| str |
+	self flag: 'not tested completely'.
 	str := WriteStream on: String new.
 	aContext printOn: str.
 	contextHash := aContext hash.
@@ -121,8 +139,9 @@ RedRemoteContextModel >> visitContext: aContext [
 	isBlock := aContext method isCompiledBlock.
 	methodSelector := aContext method selector.
 	self isBlock ifTrue:[blockSource := aContext method sourceNode sourceCode].
-	self isDoIt ifTrue:[doItSource := aContext method sourceNode sourceNode].
+	self isDoIt ifTrue:[doItSource := aContext method sourceNode sourceCode].
 	pc := aContext pc.
+	selectionInterval := self selectionIntervalFor: aContext.
 	packageName := aContext method package
 		               ifNil: [ '-' ]
 		               ifNotNil: [ :p | p name asString ].

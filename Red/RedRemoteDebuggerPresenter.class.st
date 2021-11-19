@@ -94,13 +94,13 @@ RedRemoteDebuggerPresenter >> initializePresenters [
 			 sortFunction: nil;
 			 yourself).
 
-	stack items: (RedDebuggerClient current stackFor: remote).
-	
 	stack transmitDo: [ :context | 
 		stack selection isEmpty ifFalse: [ 
 			self updateCodeFromContext: context ] ].
+		
+	code := self newCode.
 	
-	code := self newCode
+	self updateStack
 ]
 
 { #category : #private }
@@ -136,15 +136,23 @@ RedRemoteDebuggerPresenter >> title [
 RedRemoteDebuggerPresenter >> updateCodeFromContext: aRemoteContext [
 
 	| source selectionInterval |
-	source := aRemoteContext isBlock
-		          ifTrue: [ aRemoteContext methodSelector ]
+	source := aRemoteContext isDoIt
+		          ifTrue: [ aRemoteContext doItSource ]
 		          ifFalse: [ aRemoteContext findMethod sourceCode ].
 	code text: source.
-	selectionInterval := aRemoteContext findMethod rangeForPC: aRemoteContext pc.
+	code beForMethod: aRemoteContext findMethod.
+	aRemoteContext isDoIt ifTrue: [ ^ self ].
+	selectionInterval := aRemoteContext selectionInterval.
 	code removeAllTextSegmentDecorations.
 	code addTextSegmentDecoration:
 		(SpTextPresenterDecorator forHighlight
 			 interval: (selectionInterval first to: selectionInterval last + 1);
-			 yourself).
-	code beForMethod: aRemoteContext findMethod
+			 yourself)
+]
+
+{ #category : #updating }
+RedRemoteDebuggerPresenter >> updateStack [
+
+	stack items: (RedDebuggerClient current stackFor: remote).
+	stack selectIndex: 1
 ]
