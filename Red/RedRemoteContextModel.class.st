@@ -14,7 +14,8 @@ Class {
 		'sender',
 		'receiverClassName',
 		'methodSelector',
-		'packageName'
+		'packageName',
+		'isBlock'
 	],
 	#category : #Red
 }
@@ -29,6 +30,33 @@ RedRemoteContextModel >> contextHash [
 RedRemoteContextModel >> contextHash: anObject [
 
 	contextHash := anObject
+]
+
+{ #category : #searching }
+RedRemoteContextModel >> findMethod [
+
+	^ self findSmalltalkClass lookupSelector: methodSelector
+]
+
+{ #category : #searching }
+RedRemoteContextModel >> findSmalltalkClass [
+	|tokens class|
+	tokens := receiverClassName splitOn: Character space.
+	class := Smalltalk at: tokens first asSymbol.
+	tokens last = 'class' ifTrue:[^class class].
+	^class
+]
+
+{ #category : #accessing }
+RedRemoteContextModel >> isBlock [
+
+	^isBlock
+]
+
+{ #category : #accessing }
+RedRemoteContextModel >> isBlock: anObject [
+
+	isBlock := anObject
 ]
 
 { #category : #accessing }
@@ -84,13 +112,14 @@ RedRemoteContextModel >> visitContext: aContext [
 	str := WriteStream on: String new.
 	aContext printOn: str.
 	contextHash := aContext hash.
-	receiverClassName := self printReceiverClassInContext: aContext.
-	methodSelector := aContext method isCompiledBlock
-		          ifTrue: [ aContext method sourceNode sourceCode ]
-		          ifFalse: [ aContext method selector ].
+	receiverClassName := aContext receiver class name.
+	isBlock := aContext method isCompiledBlock.
+	methodSelector := isBlock
+		                  ifTrue: [ aContext method sourceNode sourceCode ]
+		                  ifFalse: [ aContext method selector ].
 	packageName := aContext method package
-		           ifNil: [ '-' ]
-		           ifNotNil: [ :p | p name asString ].
+		               ifNil: [ '-' ]
+		               ifNotNil: [ :p | p name asString ].
 	aContext sender ifNotNil: [ :s | 
 		sender := self class new visitContext: s ]
 ]
