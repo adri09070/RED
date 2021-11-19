@@ -30,6 +30,12 @@ RedDebuggerClient >> newRemoteDebugger: aNewRemoteDebuggerOpeningAnnouncement [
 	self announcer announce: aNewRemoteDebuggerOpeningAnnouncement
 ]
 
+{ #category : #announcements }
+RedDebuggerClient >> registerForNewDebuggerAnnouncements: anObject [
+	
+	self announcer weak when: RedNewRemoteDebugger send: #newRemoteDebugger: to: anObject
+]
+
 { #category : #accessing }
 RedDebuggerClient >> registeredDebuggers [
 
@@ -44,9 +50,10 @@ RedDebuggerClient >> server [
 	server delegate: (ZnDefaultServerDelegate empty
 			 map: 'newDebugger' to: [ :request | 
 				 self newRemoteDebugger: (STON fromString: request contents).
-				 ZnResponse ok: 'OK' ];
+				 ZnResponse ok: (ZnEntity text: 'OK') ];
 			 yourself).
-	server start
+	server start.
+	^server
 ]
 
 { #category : #server }
