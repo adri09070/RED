@@ -60,6 +60,12 @@ RedRemoteDebugSessionsPresenter >> buildToolbar [
 	^ commandGroup asToolbarPresenter
 ]
 
+{ #category : #actions }
+RedRemoteDebugSessionsPresenter >> debugSelection [
+
+	RedRemoteDebuggerPresenter openOn: sessions selectedItem
+]
+
 { #category : #initialization }
 RedRemoteDebugSessionsPresenter >> initialize [
 	super initialize.
