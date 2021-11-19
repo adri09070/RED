@@ -13,6 +13,22 @@ Class {
 	#category : #Red
 }
 
+{ #category : #specs }
+RedRemoteDebuggerPresenter class >> defaultSpec [
+
+	^ SpBoxLayout newTopToBottom
+		  add: #stack;
+		  add: #toolbar expand: false;
+		  add: #code;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+RedRemoteDebuggerPresenter class >> openOn: aRemote [
+
+	(self on: aRemote) openWithSpec
+]
+
 { #category : #building }
 RedRemoteDebuggerPresenter >> buildToolbar [
 
