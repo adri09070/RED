@@ -92,8 +92,7 @@ RedDebuggerClient >> proceed: remoteContextModel inSession: remote [
 { #category : #'remote commands' }
 RedDebuggerClient >> proceedSession: remote [
 
-	| command response stack |
-	self flag: 'untested'.
+	| stack |
 	stack := self stackFor: remote.
 	self proceed: stack first inSession: remote
 ]
@@ -137,12 +136,10 @@ RedDebuggerClient >> server [
 { #category : #'remote commands' }
 RedDebuggerClient >> stackFor: remote [
 
-	| command response |
-	self flag: 'untested'.
-	command := RedDebuggerStackCommand new.
-	command debugSessionHash: remote sessionHash.
-	response := command sendTo: remote remoteUrl.
-	^ STON fromString: response contents
+	^ self
+		  executeRemoteCommand: RedDebuggerStackCommand
+		  forContext: nil
+		  inSession: remote
 ]
 
 { #category : #server }

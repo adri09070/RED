@@ -106,7 +106,7 @@ RedRemoteDebuggerPresenter >> initializePresenters [
 { #category : #'remote actions' }
 RedRemoteDebuggerPresenter >> into [
 
-	stack items:
+	self updateStack:
 		(RedDebuggerClient current
 			 into: stack selectedItem
 			 inSession: remote)
@@ -115,7 +115,7 @@ RedRemoteDebuggerPresenter >> into [
 { #category : #'remote actions' }
 RedRemoteDebuggerPresenter >> over [
 
-	stack items:
+	self updateStack:
 		(RedDebuggerClient current
 			 over: stack selectedItem
 			 inSession: remote)
@@ -150,8 +150,7 @@ RedRemoteDebuggerPresenter >> proceed [
 { #category : #'remote actions' }
 RedRemoteDebuggerPresenter >> restart [
 
-	stack items:
-		(RedDebuggerClient current
+	self updateStack: (RedDebuggerClient current
 			 restart: stack selectedItem
 			 inSession: remote)
 ]
@@ -165,8 +164,7 @@ RedRemoteDebuggerPresenter >> setModelBeforeInitialization: aRemote [
 { #category : #'remote actions' }
 RedRemoteDebuggerPresenter >> through [
 
-	stack items:
-		(RedDebuggerClient current
+	self updateStack: (RedDebuggerClient current
 			 through: stack selectedItem
 			 inSession: remote)
 ]
@@ -197,6 +195,12 @@ RedRemoteDebuggerPresenter >> updateCodeFromContext: aRemoteContext [
 { #category : #updating }
 RedRemoteDebuggerPresenter >> updateStack [
 
-	stack items: (RedDebuggerClient current stackFor: remote).
+	self updateStack: (RedDebuggerClient current stackFor: remote)
+]
+
+{ #category : #updating }
+RedRemoteDebuggerPresenter >> updateStack: remoteContexts [
+
+	stack items: remoteContexts.
 	stack selectIndex: 1
 ]
