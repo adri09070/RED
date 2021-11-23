@@ -138,7 +138,7 @@ RedDebuggerClient >> stackFor: remote [
 
 	^ self
 		  executeRemoteCommand: RedDebuggerStackCommand
-		  forContext: nil
+		  forContext: RedRemoteContextModel new
 		  inSession: remote
 ]
 
