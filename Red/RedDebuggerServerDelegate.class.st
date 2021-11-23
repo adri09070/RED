@@ -35,7 +35,7 @@ RedDebuggerServerDelegate >> initialize [
 		map: 'proceed' to: #execute:;
 		map: 'restart' to: #execute:;
 		map: 'stack' to: #execute:;
-		map: 'modifySource' to: #execute:
+		map: 'recompile' to: #execute:
 ]
 
 { #category : #accessing }

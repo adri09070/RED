@@ -10,6 +10,11 @@ Class {
 	#category : #Red
 }
 
+{ #category : #options }
+RedDebuggerRecompileSourceCommand class >> route [
+	^'recompile'
+]
+
 { #category : #executing }
 RedDebuggerRecompileSourceCommand >> execute [
 

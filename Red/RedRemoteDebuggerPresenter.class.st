@@ -99,6 +99,7 @@ RedRemoteDebuggerPresenter >> initializePresenters [
 			self updateCodeFromContext: context ] ].
 		
 	code := self newCode.
+	code whenSubmitDo: [:text| self recompileCurrentContextWithNewSource ].
 	
 	self updateStack
 ]
@@ -145,6 +146,19 @@ RedRemoteDebuggerPresenter >> proceed [
 	RedDebuggerClient current proceedSession: remote.
 
 	self withWindowDo: #close
+]
+
+{ #category : #'remote actions' }
+RedRemoteDebuggerPresenter >> recompileCurrentContextWithNewSource [
+	|remoteContext newSource|
+	remoteContext := stack selectedItem.
+	newSource := code text.
+	self updateStack: (RedDebuggerClient current
+			 recompile: remoteContext
+			 inSession: remote
+			 withSource: newSource).
+	remoteContext findSmalltalkClass compile: newSource.
+	self updateCodeFromContext: stack selectedItem
 ]
 
 { #category : #'remote actions' }

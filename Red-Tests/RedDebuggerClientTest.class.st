@@ -44,7 +44,7 @@ RedDebuggerClientTest >> testExecuteRemoteCommandForContextInSession [
 	masterServer
 		withServerDo: [ :server | 
 			client
-				executeRemoteCommand: RedDebuggerTestCommand
+				executeRemoteCommand: RedDebuggerTestCommand new
 				forContext: remoteContext
 				inSession: newDebuggerNotification ]
 		route: RedDebuggerTestCommand route
