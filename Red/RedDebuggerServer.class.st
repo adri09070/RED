@@ -57,7 +57,6 @@ RedDebuggerServer class >> url [
 { #category : #debuggers }
 RedDebuggerServer >> debuggerAt: anInteger [
 
-	self flag: 'untested'.
 	^ self debuggers at: anInteger
 ]
 
@@ -87,7 +86,6 @@ RedDebuggerServer >> initialize [
 
 { #category : #debuggers }
 RedDebuggerServer >> newRemoteDebuggerNotificationFor: aDebugger [
-	self flag: 'untested'.
 
 	^ RedNewRemoteDebugger new
 		  sessionHash: aDebugger debugSessionHash;
@@ -114,14 +112,13 @@ RedDebuggerServer >> registerAndNotifyNewDebugger: aRedDebugger [
 { #category : #debuggers }
 RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 
-	self flag: 'untested'.
 	self debuggers at: aRedDebugger debugSessionHash put: aRedDebugger
 ]
 
 { #category : #debuggers }
 RedDebuggerServer >> removeDebugger: aDebugSessionHash [
-	self flag: 'untested'.
-	self debuggers removeKey: aDebugSessionHash ifAbsent:[]
+
+	self debuggers removeKey: aDebugSessionHash ifAbsent: [  ]
 ]
 
 { #category : #initialize }
