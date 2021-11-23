@@ -103,6 +103,24 @@ RedRemoteDebuggerPresenter >> initializePresenters [
 	self updateStack
 ]
 
+{ #category : #'remote actions' }
+RedRemoteDebuggerPresenter >> into [
+
+	stack items:
+		(RedDebuggerClient current
+			 into: stack selectedItem
+			 inSession: remote)
+]
+
+{ #category : #'remote actions' }
+RedRemoteDebuggerPresenter >> over [
+
+	stack items:
+		(RedDebuggerClient current
+			 over: stack selectedItem
+			 inSession: remote)
+]
+
 { #category : #private }
 RedRemoteDebuggerPresenter >> printReceiverClass: aRemoteContext [
 
@@ -121,10 +139,36 @@ RedRemoteDebuggerPresenter >> printReceiverClass: aRemoteContext [
 		  contents
 ]
 
+{ #category : #'remote actions' }
+RedRemoteDebuggerPresenter >> proceed [
+
+	RedDebuggerClient current proceedSession: remote.
+
+	self withWindowDo: #close
+]
+
+{ #category : #'remote actions' }
+RedRemoteDebuggerPresenter >> restart [
+
+	stack items:
+		(RedDebuggerClient current
+			 restart: stack selectedItem
+			 inSession: remote)
+]
+
 { #category : #initialization }
 RedRemoteDebuggerPresenter >> setModelBeforeInitialization: aRemote [
 
 	remote := aRemote
+]
+
+{ #category : #'remote actions' }
+RedRemoteDebuggerPresenter >> through [
+
+	stack items:
+		(RedDebuggerClient current
+			 through: stack selectedItem
+			 inSession: remote)
 ]
 
 { #category : #accessing }

@@ -36,9 +36,29 @@ RedDebuggerClient >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
+{ #category : #'remote commands' }
+RedDebuggerClient >> executeRemoteCommand: aCommandClass forContext: remoteContextModel inSession: remote [
+
+	| command response |
+	command := aCommandClass new.
+	command debugSessionHash: remote sessionHash.
+	command contextHash: remoteContextModel contextHash.
+	response := command sendTo: remote remoteUrl.
+	^STON fromString: response contents
+]
+
 { #category : #initialization }
 RedDebuggerClient >> initialize [
 	self server
+]
+
+{ #category : #'remote commands' }
+RedDebuggerClient >> into: remoteContextModel inSession: remote [
+
+	^ self
+		  executeRemoteCommand: RedDebuggerIntoCommand
+		  forContext: remoteContextModel
+		  inSession: remote
 ]
 
 { #category : #server }
@@ -51,15 +71,21 @@ RedDebuggerClient >> newRemoteDebugger: aNewRemoteDebuggerOpeningAnnouncement [
 ]
 
 { #category : #'remote commands' }
+RedDebuggerClient >> over: remoteContextModel inSession: remote [
+
+	^ self
+		  executeRemoteCommand: RedDebuggerOverCommand
+		  forContext: remoteContextModel
+		  inSession: remote
+]
+
+{ #category : #'remote commands' }
 RedDebuggerClient >> proceed: remoteContextModel inSession: remote [
 
-	| command response |
-	self flag: 'untested'.	
-	command := RedDebuggerProceedCommand new.
-	command debugSessionHash: remote sessionHash.
-	command contextHash: remoteContextModel contextHash.
-	response := command sendTo: remote remoteUrl.
-	self registeredDebuggers removeKey: remote sessionHash.
+	self
+		executeRemoteCommand: RedDebuggerProceedCommand
+		forContext: remoteContextModel
+		inSession: remote.
 	self announcer announce: RedRemoteDebuggerClosed new
 ]
 
@@ -83,6 +109,15 @@ RedDebuggerClient >> registerForNewDebuggerAnnouncements: anObject [
 RedDebuggerClient >> registeredDebuggers [
 
 	^ registeredDebuggers ifNil:[registeredDebuggers := Dictionary new]
+]
+
+{ #category : #'remote commands' }
+RedDebuggerClient >> restart: remoteContextModel inSession: remote [
+
+	^ self
+		  executeRemoteCommand: RedDebuggerRestartCommand
+		  forContext: remoteContextModel
+		  inSession: remote
 ]
 
 { #category : #server }
@@ -114,4 +149,13 @@ RedDebuggerClient >> stackFor: remote [
 RedDebuggerClient >> stop [
 
 	server ifNotNil: [ :s | s stop ]
+]
+
+{ #category : #'remote commands' }
+RedDebuggerClient >> through: remoteContextModel inSession: remote [
+
+	^ self
+		  executeRemoteCommand: RedDebuggerThroughCommand
+		  forContext: remoteContextModel
+		  inSession: remote
 ]

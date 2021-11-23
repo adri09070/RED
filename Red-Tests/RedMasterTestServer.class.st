@@ -16,15 +16,21 @@ RedMasterTestServer >> masterNotification [
 	^ masterNotification
 ]
 
+{ #category : #accessing }
+RedMasterTestServer >> url [
+
+	^ RedDebuggerServer remoteDebuggerMasterURL
+]
+
 { #category : #enumerating }
-RedMasterTestServer >> withServerDo: block [
+RedMasterTestServer >> withServerDo: block route: aString port: port [
 
 	| server |
-	server := ZnServer on: RedDebuggerServer remoteDebuggerMasterPort.
+	server := ZnServer on: port.
 	server delegate: (ZnDefaultServerDelegate empty
-			 map: 'newDebugger' to: [ :request | 
-				 masterNotification := STON fromString: request contents.
-				ZnResponse ok: request contents];
+			 map: aString to: [ :request | 	
+				 masterNotification := STON fromString: request contents.			
+				 ZnResponse ok: (ZnEntity text: request contents) ];
 			 yourself).
 
 	[ 
@@ -34,6 +40,5 @@ RedMasterTestServer >> withServerDo: block [
 		description:
 			('Failed to start server on port {1}. Is there one already?' 
 				 format: { server port }).
-	self assert: server isRunning & server isListening.
 	block cull: server ] ensure: [ server stop ]
 ]

@@ -37,7 +37,9 @@ RedDebuggerServer class >> remoteDebuggerMasterPort [
 
 { #category : #'API - remotes' }
 RedDebuggerServer class >> remoteDebuggerMasterURL [
-	^'http://localhost:8000'
+
+	^ ZnUrl fromString:
+		  'http://localhost:' , self remoteDebuggerMasterPort printString
 ]
 
 { #category : #initialization }

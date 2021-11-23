@@ -33,6 +33,30 @@ RedDebuggerClientTest >> testAnnouncer [
 ]
 
 { #category : #tests }
+RedDebuggerClientTest >> testExecuteRemoteCommandForContextInSession [
+
+	| remoteContext receivedCommand |
+	RedDebuggerServer reset.
+	remoteContext := RedRemoteContextModel new.
+	remoteContext contextHash: 2.
+	newDebuggerNotification remoteUrl: RedDebuggerServer url.
+
+	masterServer
+		withServerDo: [ :server | 
+			client
+				executeRemoteCommand: RedDebuggerTestCommand
+				forContext: remoteContext
+				inSession: newDebuggerNotification ]
+		route: RedDebuggerTestCommand route
+		port: RedDebuggerServer url port.
+		
+	receivedCommand := masterServer masterNotification.
+	self assert: receivedCommand class identicalTo: RedDebuggerTestCommand.
+	self assert: receivedCommand contextHash equals: remoteContext contextHash.
+	self assert: receivedCommand debugSessionHash equals: newDebuggerNotification sessionHash
+]
+
+{ #category : #tests }
 RedDebuggerClientTest >> testNewRemoteDebugger [
 
 	|presenter notification|

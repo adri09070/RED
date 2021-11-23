@@ -16,7 +16,10 @@ RedDebuggerTest >> setUp [
 { #category : #tests }
 RedDebuggerTest >> testDebuggerRegistration [
 
-	masterServer withServerDo: [ debugger initialize ].
+	masterServer
+		withServerDo: [ debugger initialize ]
+		route: 'newDebugger'
+		port: RedDebuggerServer remoteDebuggerMasterPort.
 
 	self
 		assert: (debuggerServer debuggerAt: debugger debugSessionHash)

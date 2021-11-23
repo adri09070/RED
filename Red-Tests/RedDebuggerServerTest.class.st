@@ -21,17 +21,23 @@ RedDebuggerServerTest >> testDebuggers [
 { #category : #tests }
 RedDebuggerServerTest >> testNotifyMasterForNewOpenedDebugger [
 
-	masterServer withServerDo: [ :server | 
-		debuggerServer notifyMasterForNewOpenedDebugger: debugger.
-		self assertNewRemoteDebuggerAnnouncement:
-			masterServer masterNotification ]
+	masterServer
+		withServerDo: [ :server | 
+			debuggerServer notifyMasterForNewOpenedDebugger: debugger.
+			self assertNewRemoteDebuggerAnnouncement:
+				masterServer masterNotification ]
+		route: 'newDebugger'
+		port: RedDebuggerServer remoteDebuggerMasterPort
 ]
 
 { #category : #tests }
 RedDebuggerServerTest >> testRegisterAndNotifyNewDebugger [
 
-	masterServer withServerDo: [ 
-		debuggerServer registerAndNotifyNewDebugger: debugger ].
+	masterServer
+		withServerDo: [ 
+		debuggerServer registerAndNotifyNewDebugger: debugger ]
+		route: 'newDebugger'
+		port: RedDebuggerServer remoteDebuggerMasterPort.
 
 	self
 		assert: (debuggerServer debuggerAt: debugger debugSessionHash)
