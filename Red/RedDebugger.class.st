@@ -103,6 +103,12 @@ RedDebugger >> proceed [
 ]
 
 { #category : #api }
+RedDebugger >> recompileContext: context with: source [
+	self flag: 'untested'.
+	self debuggerActionModel recompileMethodTo: source inContext: context notifying: nil
+]
+
+{ #category : #api }
 RedDebugger >> restartContext: aContext [ 
 	self debuggerActionModel restartContext: aContext
 ]
