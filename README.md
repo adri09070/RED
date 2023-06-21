@@ -2,7 +2,9 @@
 # RED
 Pharo remote debugging experiment
 
+```Smalltalk
 Metacello new
-    baseline: 'RED';
-    repository: 'github://StevenCostiou/RED';
+    baseline: 'Red';
+    repository: 'github://StevenCostiou/RED:main';
     load.
+```
