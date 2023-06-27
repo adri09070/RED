@@ -13,8 +13,8 @@ Class {
 	#category : #Red
 }
 
-{ #category : #specs }
-RedRemoteDebuggerPresenter class >> defaultSpec [
+{ #category : #layout }
+RedRemoteDebuggerPresenter class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
 		  add: #stack;
@@ -26,7 +26,7 @@ RedRemoteDebuggerPresenter class >> defaultSpec [
 { #category : #'instance creation' }
 RedRemoteDebuggerPresenter class >> openOn: aRemote [
 
-	(self on: aRemote) openWithSpec
+	(self on: aRemote) open
 ]
 
 { #category : #building }
@@ -43,23 +43,25 @@ RedRemoteDebuggerPresenter >> buildToolbar [
 			 buildToolbarButtonLabeled: 'Over'
 			 action: [ :context | context over ]
 			 iconNamed: #glamorousOver).
-			
+
 	commandGroup register: (self
 			 buildToolbarButtonLabeled: 'Through'
 			 action: [ :context | context through ]
 			 iconNamed: #glamorousThrough).
-			
+
 	commandGroup register: (self
 			 buildToolbarButtonLabeled: 'Restart'
 			 action: [ :context | context restart ]
 			 iconNamed: #glamorousRestart).
-			
+
 	commandGroup register: (self
 			 buildToolbarButtonLabeled: 'Proceed'
 			 action: [ :context | context proceed ]
 			 iconNamed: #glamorousGo).
 
-	^ commandGroup asToolbarPresenter
+	^ self newToolbar
+		  fillWith: commandGroup;
+		  yourself
 ]
 
 { #category : #initialization }
