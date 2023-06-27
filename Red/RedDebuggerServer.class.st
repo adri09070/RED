@@ -112,7 +112,8 @@ RedDebuggerServer >> registerAndNotifyNewDebugger: aRedDebugger [
 { #category : #debuggers }
 RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 
-	self debuggers at: aRedDebugger debugSessionHash put: aRedDebugger
+	self debuggers at: aRedDebugger debugSessionHash put: aRedDebugger.
+	aRedDebugger server: self
 ]
 
 { #category : #debuggers }

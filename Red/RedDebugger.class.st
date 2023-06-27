@@ -9,8 +9,8 @@ Class {
 	#traits : 'TDebugger',
 	#classTraits : 'TDebugger classTrait',
 	#instVars : [
-		'debugSession',
-		'debuggerActionModel'
+		'debuggerActionModel',
+		'server'
 	],
 	#category : #Red
 }
@@ -33,6 +33,7 @@ RedDebugger class >> defaultDebuggerRank [
 RedDebugger >> clear [
 
 	self flag: 'todo'.
+	self removeActionsForActionModel.
 	self debuggerActionModel clear.
 	debuggerActionModel := nil
 ]
@@ -51,7 +52,8 @@ RedDebugger >> debugSession: aDebugSession [
 	self debuggerActionModel
 		ifNotNil: [ debuggerActionModel session: aDebugSession ]
 		ifNil: [
-		debuggerActionModel := StDebuggerActionModel on: aDebugSession ]
+			debuggerActionModel := StDebuggerActionModel on: aDebugSession.
+			self registerActionsForActionModel ]
 ]
 
 { #category : #accessing }
@@ -100,7 +102,7 @@ RedDebugger >> interruptedContext [
 { #category : #accessing }
 RedDebugger >> localServer [
 
-	^ RedDebuggerServer current
+	^ server
 ]
 
 { #category : #api }
@@ -115,9 +117,48 @@ RedDebugger >> recompileContext: context with: source [
 	self debuggerActionModel recompileMethodTo: source inContext: context notifying: nil
 ]
 
+{ #category : #update }
+RedDebugger >> registerActionsForActionModel [
+
+	self debuggerActionModel
+		when: StDebuggerActionModelStepAnnouncement
+		send: #updateStep:
+		to: self;
+		when: StDebuggerActionModelRestartAnnouncement
+		send: #updateRestart:
+		to: self;
+		when: StDebuggerActionModelResumeAnnouncement
+		send: #updateResume:
+		to: self;
+		when: StDebuggerActionModelContextChangedAnnouncement
+		send: #updateContextChanged:
+		to: self;
+		when: StDebuggerActionModelMethodAddedAnnouncement
+		send: #updateMethodAdded:
+		to: self
+]
+
+{ #category : #update }
+RedDebugger >> removeActionsForActionModel [
+
+	self debuggerActionModel unsubscribe: self
+]
+
 { #category : #api }
 RedDebugger >> restartContext: aContext [ 
 	self debuggerActionModel restartContext: aContext
+]
+
+{ #category : #accessing }
+RedDebugger >> server [
+
+	^ server
+]
+
+{ #category : #accessing }
+RedDebugger >> server: anObject [
+
+	server := anObject
 ]
 
 { #category : #api }
@@ -148,4 +189,32 @@ RedDebugger >> stepOver: aContext [
 { #category : #api }
 RedDebugger >> stepThrough: aContext [ 
 	self debuggerActionModel stepThrough: aContext
+]
+
+{ #category : #update }
+RedDebugger >> updateContextChanged: anActionModelContextChangedAnnouncement [
+
+	
+]
+
+{ #category : #update }
+RedDebugger >> updateMethodAdded: anActionModelMethodAddedAnnouncement [
+
+	
+]
+
+{ #category : #update }
+RedDebugger >> updateRestart: anActionModelRestartAnnouncement [
+
+	
+]
+
+{ #category : #update }
+RedDebugger >> updateResume: anActionModelResumeAnnouncement [
+
+	
+]
+
+{ #category : #update }
+RedDebugger >> updateStep: anActionModelStepAnnouncement [
 ]
