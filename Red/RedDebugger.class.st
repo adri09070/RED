@@ -31,19 +31,27 @@ RedDebugger class >> defaultDebuggerRank [
 
 { #category : #api }
 RedDebugger >> clear [
-	self flag: 'todo'
+
+	self flag: 'todo'.
+	self debuggerActionModel clear.
+	debuggerActionModel := nil
 ]
 
 { #category : #accessing }
 RedDebugger >> debugSession [
 
-	^debugSession
+	^ self debuggerActionModel
+		  ifNotNil: [ debuggerActionModel session ]
+		  ifNil: [ nil ]
 ]
 
 { #category : #accessing }
 RedDebugger >> debugSession: aDebugSession [
 
-	debugSession := aDebugSession
+	self debuggerActionModel
+		ifNotNil: [ debuggerActionModel session: aDebugSession ]
+		ifNil: [
+		debuggerActionModel := StDebuggerActionModel on: aDebugSession ]
 ]
 
 { #category : #accessing }
@@ -59,8 +67,7 @@ RedDebugger >> debugSessionHashString [
 { #category : #accessing }
 RedDebugger >> debuggerActionModel [
 
-	^ debuggerActionModel ifNil: [ 
-		  debuggerActionModel := StDebuggerActionModel on: self debugSession ]
+	^ debuggerActionModel
 ]
 
 { #category : #accessing }
