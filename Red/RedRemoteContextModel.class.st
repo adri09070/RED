@@ -13,21 +13,17 @@ Class {
 		'contextHash',
 		'sender',
 		'receiverClassName',
-		'methodSelector',
-		'packageName',
-		'isBlock',
+		'compiledCodeModel',
 		'pc',
-		'doItSource',
-		'blockSource',
 		'selectionInterval'
 	],
 	#category : #Red
 }
 
 { #category : #accessing }
-RedRemoteContextModel >> blockSource [
+RedRemoteContextModel >> compiledCode [
 
-	^ blockSource
+	^ compiledCodeModel
 ]
 
 { #category : #accessing }
@@ -42,16 +38,11 @@ RedRemoteContextModel >> contextHash: anObject [
 	contextHash := anObject
 ]
 
-{ #category : #accessing }
-RedRemoteContextModel >> doItSource [
-
-	^ doItSource
-]
-
 { #category : #searching }
 RedRemoteContextModel >> findMethod [
+
 	self flag: 'untested'.
-	^ self findSmalltalkClass lookupSelector: methodSelector
+	^ compiledCodeModel
 ]
 
 { #category : #searching }
@@ -67,25 +58,25 @@ RedRemoteContextModel >> findSmalltalkClass [
 { #category : #testing }
 RedRemoteContextModel >> isBlock [
 
-	^isBlock
+	^ compiledCodeModel isBlock
 ]
 
 { #category : #testing }
 RedRemoteContextModel >> isDoIt [
 
-	^ methodSelector = 'DoIt'
+	^ self methodSelector = 'DoIt'
 ]
 
 { #category : #accessing }
 RedRemoteContextModel >> methodSelector [
 
-	^ methodSelector
+	^ compiledCodeModel methodSelector
 ]
 
 { #category : #accessing }
 RedRemoteContextModel >> packageName [
 
-	^ packageName
+	^ compiledCodeModel packageName
 ]
 
 { #category : #accessing }
@@ -127,6 +118,12 @@ RedRemoteContextModel >> sender: anObject [
 	sender := anObject
 ]
 
+{ #category : #accessing }
+RedRemoteContextModel >> source [
+
+	^ self compiledCode sourceCode
+]
+
 { #category : #visiting }
 RedRemoteContextModel >> visitContext: aContext [
 
@@ -136,15 +133,8 @@ RedRemoteContextModel >> visitContext: aContext [
 	aContext printOn: str.
 	contextHash := aContext hash.
 	receiverClassName := aContext receiver class name.
-	isBlock := aContext method isCompiledBlock.
-	methodSelector := aContext method selector.
-	self isBlock ifTrue:[blockSource := aContext method sourceNode sourceCode].
-	self isDoIt ifTrue:[doItSource := aContext method sourceNode sourceCode].
+	compiledCodeModel := RedRemoteCompiledCodeModel new
+		                     visitCompiledCode: aContext compiledCode.
 	pc := aContext pc.
-	selectionInterval := self selectionIntervalFor: aContext.
-	packageName := aContext method package
-		               ifNil: [ '-' ]
-		               ifNotNil: [ :p | p name asString ].
-	aContext sender ifNotNil: [ :s | 
-		sender := self class new visitContext: s ]
+	selectionInterval := aContext compiledCode rangeForPC: pc
 ]

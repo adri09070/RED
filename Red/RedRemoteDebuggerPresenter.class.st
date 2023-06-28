@@ -127,17 +127,17 @@ RedRemoteDebuggerPresenter >> over [
 { #category : #private }
 RedRemoteDebuggerPresenter >> printReceiverClass: aRemoteContext [
 
-	| receiverClass method methodClass |
-	receiverClass := aRemoteContext findSmalltalkClass.
-	aRemoteContext isBlock ifTrue:[^ receiverClass name ].
+	| receiverClassName method methodClassName |
+	receiverClassName := aRemoteContext findSmalltalkClass.
+	aRemoteContext isBlock ifTrue:[^ receiverClassName ].
 	method := aRemoteContext findMethod ifNil:[^''].
-	methodClass := method methodClass.
-	receiverClass == methodClass ifTrue: [ ^ receiverClass name ].
+	methodClassName := method methodClassName.
+	receiverClassName = methodClassName ifTrue: [ ^ receiverClassName ].
 	^ (WriteStream on: String new)
-		  nextPutAll: receiverClass name;
+		  nextPutAll: receiverClassName;
 		  space;
 		  nextPut: $(;
-		  nextPutAll: methodClass name;
+		  nextPutAll: methodClassName;
 		  nextPut: $);
 		  contents
 ]
@@ -159,7 +159,7 @@ RedRemoteDebuggerPresenter >> recompileCurrentContextWithNewSource [
 			 recompile: remoteContext
 			 inSession: remote
 			 withSource: newSource).
-	remoteContext findSmalltalkClass compile: newSource.
+	"remoteContext findSmalltalkClass compile: newSource."
 	self updateCodeFromContext: stack selectedItem
 ]
 
@@ -194,9 +194,7 @@ RedRemoteDebuggerPresenter >> title [
 RedRemoteDebuggerPresenter >> updateCodeFromContext: aRemoteContext [
 
 	| source selectionInterval |
-	source := aRemoteContext isDoIt
-		          ifTrue: [ aRemoteContext doItSource ]
-		          ifFalse: [ aRemoteContext findMethod sourceCode ].
+	source := aRemoteContext source.
 	code text: source.
 	code beForMethod: aRemoteContext findMethod.
 	aRemoteContext isDoIt ifTrue: [ ^ self ].
