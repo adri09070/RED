@@ -136,5 +136,7 @@ RedRemoteContextModel >> visitContext: aContext [
 	compiledCodeModel := RedRemoteCompiledCodeModel new
 		                     visitCompiledCode: aContext compiledCode.
 	pc := aContext pc.
-	selectionInterval := aContext compiledCode rangeForPC: pc
+	selectionInterval := aContext compiledCode rangeForPC: pc.
+	aContext sender ifNotNil: [ :s |
+		sender := self class new visitContext: s ]
 ]
