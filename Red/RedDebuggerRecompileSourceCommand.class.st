@@ -16,6 +16,13 @@ RedDebuggerRecompileSourceCommand class >> route [
 ]
 
 { #category : #executing }
+RedDebuggerRecompileSourceCommand >> answer [
+
+	debugger localServer waitOnSemaphoreAt: debugger debugSessionHash.
+	^ super answer
+]
+
+{ #category : #executing }
 RedDebuggerRecompileSourceCommand >> execute [
 
 	debugger recompileContext: context with: source
