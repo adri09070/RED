@@ -10,7 +10,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'debuggers',
-		'server'
+		'server',
+		'semaphores'
 	],
 	#classInstVars : [
 		'rank',
@@ -77,10 +78,11 @@ RedDebuggerServer >> delegate: aZnDelegate [
 	server delegate: aZnDelegate
 ]
 
-{ #category : #initialize }
+{ #category : #initialization }
 RedDebuggerServer >> initialize [
 	server := ZnServer on: 8008.
 	RedDebuggerServerDelegate on: self.
+	semaphores := Dictionary new.
 	server start
 ]
 
@@ -116,6 +118,12 @@ RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 	aRedDebugger server: self
 ]
 
+{ #category : #update }
+RedDebuggerServer >> releaseSemaphoreAt: sessionHash [
+
+	(self semaphores at: sessionHash) signal
+]
+
 { #category : #debuggers }
 RedDebuggerServer >> removeDebugger: aDebugSessionHash [
 
@@ -137,4 +145,10 @@ RedDebuggerServer >> server [
 { #category : #accessing }
 RedDebuggerServer >> url [
 	^self class url
+]
+
+{ #category : #accessing }
+RedDebuggerServer >> waitOnSemaphoreAt: debugSessionHash [
+
+	(self semaphores at: debugSessionHash) wait
 ]
