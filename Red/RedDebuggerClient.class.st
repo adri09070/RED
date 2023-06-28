@@ -109,7 +109,7 @@ RedDebuggerClient >> recompile: remoteContextModel inSession: remote withSource:
 RedDebuggerClient >> registerForNewDebuggerAnnouncements: anObject [
 	
 	self announcer weak when: RedNewRemoteDebugger send: #newRemoteDebugger: to: anObject.
-	self announcer weak when: RedRemoteDebuggerClosed send: #remoteDebuggerRemoved to: anObject
+	self announcer weak when: RedRemoteDebuggerClosed send: #remoteDebuggerRemoved: to: anObject
 ]
 
 { #category : #accessing }

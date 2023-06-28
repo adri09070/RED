@@ -50,7 +50,7 @@ RedRemoteDebugSessionsPresenter >> buildToolbar [
 
 	commandGroup register: (self
 			 buildToolbarButtonLabeled: 'Terminate'
-			 action: [ :context | context terminate ]
+			 action: [ :context | context terminateSelection ]
 			 iconNamed: #changeRemove).
 
 	commandGroup register: (self
@@ -105,8 +105,10 @@ RedRemoteDebugSessionsPresenter >> proceedSelection [
 ]
 
 { #category : #announcements }
-RedRemoteDebugSessionsPresenter >> remoteDebuggerRemoved [
+RedRemoteDebugSessionsPresenter >> remoteDebuggerRemoved: aRedRemoteDebuggerClosedAnnouncement [
 
+	RedDebuggerClient current removeKey:
+		aRedRemoteDebuggerClosedAnnouncement debugSessionHash.
 	sessions items: RedDebuggerClient current registeredDebuggers values
 ]
 
