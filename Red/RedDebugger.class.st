@@ -200,27 +200,29 @@ RedDebugger >> stepThrough: aContext [
 { #category : #update }
 RedDebugger >> updateContextChanged: anActionModelContextChangedAnnouncement [
 
-	
+	self server updateContextChangedForSessionHash: self debugSessionHash
 ]
 
 { #category : #update }
 RedDebugger >> updateMethodAdded: anActionModelMethodAddedAnnouncement [
 
-	
+	self server updateMethodAddedForSessionHash: self debugSessionHash
 ]
 
 { #category : #update }
 RedDebugger >> updateRestart: anActionModelRestartAnnouncement [
 
-	
+	self server updateRestartForSessionHash: self debugSessionHash
 ]
 
 { #category : #update }
 RedDebugger >> updateResume: anActionModelResumeAnnouncement [
 
-	
+	self server updateResumeForSessionHash: self debugSessionHash 
 ]
 
 { #category : #update }
 RedDebugger >> updateStep: anActionModelStepAnnouncement [
+
+	self server updateStepForSessionHash: self debugSessionHash
 ]

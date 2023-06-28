@@ -182,6 +182,28 @@ RedDebuggerServer >> server [
 	^ server
 ]
 
+{ #category : #update }
+RedDebuggerServer >> updateContextChangedForSessionHash: sessionHash [
+
+	self releaseSemaphoreAt: sessionHash.
+]
+
+{ #category : #update }
+RedDebuggerServer >> updateMethodAddedForSessionHash: sessionHash [
+]
+
+{ #category : #update }
+RedDebuggerServer >> updateRestartForSessionHash: sessionHash [
+]
+
+{ #category : #update }
+RedDebuggerServer >> updateResumeForSessionHash: sessionHash [
+]
+
+{ #category : #update }
+RedDebuggerServer >> updateStepForSessionHash: sessionHash [
+]
+
 { #category : #accessing }
 RedDebuggerServer >> url [
 	^self class url
