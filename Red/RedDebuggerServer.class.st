@@ -115,7 +115,7 @@ RedDebuggerServer >> newRemoteDebuggerNotificationFor: aDebugger [
 RedDebuggerServer >> notifyMasterForClosedDebugger: aDebugSessionHash [
 
 	ZnEasy
-		put: self class newRemoteDebuggerNotificationURL
+		put: self class closedRemoteDebuggerNotificationURL
 		data: (ZnEntity text: (STON toString:
 					  (self closedRemoteDebuggerNotificationFor: aDebugSessionHash)))
 ]
