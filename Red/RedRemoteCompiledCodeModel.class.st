@@ -85,7 +85,7 @@ RedRemoteCompiledCodeModel >> visitCompiledCode: aCompiledCode [
 
 	packageName := aCompiledCode package
 		               ifNil: [ '-' ]
-		               ifNotNil: [ :package | packageName ].
+		               ifNotNil: [ :package | package name ].
 	methodClassName := aCompiledCode methodClass name.
 	methodSelector := aCompiledCode selector.
 	bytecodes := aCompiledCode bytecodes.
