@@ -32,6 +32,18 @@ RedRemoteCompiledCodeModel >> isBlock [
 	^ isBlock
 ]
 
+{ #category : #testing }
+RedRemoteCompiledCodeModel >> isDoIt [
+
+	^ self methodSelector = 'DoIt'
+]
+
+{ #category : #accessing }
+RedRemoteCompiledCodeModel >> methodClass [
+
+	^ self class
+]
+
 { #category : #accessing }
 RedRemoteCompiledCodeModel >> methodClassName [
 
@@ -48,6 +60,12 @@ RedRemoteCompiledCodeModel >> methodSelector [
 RedRemoteCompiledCodeModel >> packageName [
 
 	^ packageName
+]
+
+{ #category : #accessing }
+RedRemoteCompiledCodeModel >> selector [
+
+	^ self methodSelector
 ]
 
 { #category : #accessing }

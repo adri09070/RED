@@ -128,9 +128,9 @@ RedRemoteDebuggerPresenter >> over [
 RedRemoteDebuggerPresenter >> printReceiverClass: aRemoteContext [
 
 	| receiverClassName method methodClassName |
-	receiverClassName := aRemoteContext findSmalltalkClass.
-	aRemoteContext isBlock ifTrue:[^ receiverClassName ].
-	method := aRemoteContext findMethod ifNil:[^''].
+	receiverClassName := aRemoteContext receiverClassName.
+	aRemoteContext isBlock ifTrue: [ ^ receiverClassName ].
+	method := aRemoteContext findMethod ifNil: [ ^ '' ].
 	methodClassName := method methodClassName.
 	receiverClassName = methodClassName ifTrue: [ ^ receiverClassName ].
 	^ (WriteStream on: String new)
