@@ -91,7 +91,9 @@ RedDebugger >> findContextFromhash: anInteger [
 
 { #category : #initialization }
 RedDebugger >> initialize [
-	self localServer registerAndNotifyNewDebugger: self
+
+	super initialize.
+	self server: RedDebuggerServer current
 ]
 
 { #category : #api }
@@ -158,7 +160,10 @@ RedDebugger >> server [
 { #category : #accessing }
 RedDebugger >> server: anObject [
 
-	server := anObject
+	server ifNotNil: [
+		server removeAndNotifyDebugger: self debugSessionHash ].
+	server := anObject.
+	self localServer registerAndNotifyNewDebugger: self
 ]
 
 { #category : #api }
