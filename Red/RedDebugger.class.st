@@ -109,7 +109,8 @@ RedDebugger >> localServer [
 
 { #category : #api }
 RedDebugger >> proceed [
-	self localServer removeDebugger: self debugSessionHash. 
+
+	self localServer removeAndNotifyDebugger: self debugSessionHash.
 	self debuggerActionModel proceedDebugSession
 ]
 

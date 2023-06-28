@@ -21,6 +21,12 @@ Class {
 	#category : #Red
 }
 
+{ #category : #'API - remotes' }
+RedDebuggerServer class >> closedRemoteDebuggerNotificationURL [
+
+	^ ZnUrl fromString: 'http://localhost:8000/closedDebugger'
+]
+
 { #category : #'instance creation' }
 RedDebuggerServer class >> current [
 	^current ifNil:[current := self new]
@@ -53,6 +59,15 @@ RedDebuggerServer class >> reset [
 { #category : #'API - remotes' }
 RedDebuggerServer class >> url [
 	^ZnUrl fromString: 'http://localhost:8008'
+]
+
+{ #category : #debuggers }
+RedDebuggerServer >> closedRemoteDebuggerNotificationFor: aDebugSessionHash [
+
+	^ RedRemoteDebuggerClosed new
+		  sessionHash: aDebugSessionHash;
+		  remoteUrl: self url;
+		  yourself
 ]
 
 { #category : #debuggers }
@@ -97,6 +112,15 @@ RedDebuggerServer >> newRemoteDebuggerNotificationFor: aDebugger [
 ]
 
 { #category : #debuggers }
+RedDebuggerServer >> notifyMasterForClosedDebugger: aDebugSessionHash [
+
+	ZnEasy
+		put: self class newRemoteDebuggerNotificationURL
+		data: (ZnEntity text: (STON toString:
+					  (self closedRemoteDebuggerNotificationFor: aDebugSessionHash)))
+]
+
+{ #category : #debuggers }
 RedDebuggerServer >> notifyMasterForNewOpenedDebugger: aDebugger [
 
 	ZnEasy
@@ -115,7 +139,9 @@ RedDebuggerServer >> registerAndNotifyNewDebugger: aRedDebugger [
 RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 
 	self debuggers at: aRedDebugger debugSessionHash put: aRedDebugger.
-	aRedDebugger server: self
+	self semaphores
+		at: aRedDebugger debugSessionHash
+		put: Semaphore forMutualExclusion
 ]
 
 { #category : #update }
@@ -125,9 +151,17 @@ RedDebuggerServer >> releaseSemaphoreAt: sessionHash [
 ]
 
 { #category : #debuggers }
+RedDebuggerServer >> removeAndNotifyDebugger: aDebugSessionHash [
+
+	self removeDebugger: aDebugSessionHash.
+	self notifyMasterForClosedDebugger: aDebugSessionHash
+]
+
+{ #category : #debuggers }
 RedDebuggerServer >> removeDebugger: aDebugSessionHash [
 
-	self debuggers removeKey: aDebugSessionHash ifAbsent: [  ]
+	self debuggers removeKey: aDebugSessionHash ifAbsent: [  ].
+	self semaphores removeKey: aDebugSessionHash ifAbsent: [  ]
 ]
 
 { #category : #initialize }
@@ -135,6 +169,12 @@ RedDebuggerServer >> reset [
 	server stop.
 	self debuggers do:[:d| d clear].
 	debuggers removeAll
+]
+
+{ #category : #accessing }
+RedDebuggerServer >> semaphores [
+
+	^ semaphores
 ]
 
 { #category : #accessing }
