@@ -107,8 +107,6 @@ RedRemoteDebugSessionsPresenter >> proceedSelection [
 { #category : #announcements }
 RedRemoteDebugSessionsPresenter >> remoteDebuggerRemoved: aRedRemoteDebuggerClosedAnnouncement [
 
-	RedDebuggerClient current removeKey:
-		aRedRemoteDebuggerClosedAnnouncement debugSessionHash.
 	sessions items: RedDebuggerClient current registeredDebuggers values
 ]
 

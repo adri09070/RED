@@ -61,6 +61,14 @@ RedDebuggerClient >> into: remoteContextModel inSession: remote [
 ]
 
 { #category : #server }
+RedDebuggerClient >> newClosedDebugger: aRemoteDebuggerClosedAnnouncement [
+
+	self registeredDebuggers removeKey:
+		aRemoteDebuggerClosedAnnouncement sessionHash.
+	self announcer announce: aRemoteDebuggerClosedAnnouncement
+]
+
+{ #category : #server }
 RedDebuggerClient >> newRemoteDebugger: aNewRemoteDebuggerOpeningAnnouncement [
 
 	self registeredDebuggers
@@ -133,12 +141,15 @@ RedDebuggerClient >> server [
 	server ifNotNil: [ ^ server ].
 	server := ZnServer on: RedDebuggerServer remoteDebuggerMasterPort.
 	server delegate: (ZnDefaultServerDelegate empty
-			 map: 'newDebugger' to: [ :request | 
+			 map: 'newDebugger' to: [ :request |
 				 self newRemoteDebugger: (STON fromString: request contents).
+				 ZnResponse ok: (ZnEntity text: 'OK') ];
+			 map: 'closedDebugger' to: [ :request |
+				 self newClosedDebugger: (STON fromString: request contents).
 				 ZnResponse ok: (ZnEntity text: 'OK') ];
 			 yourself).
 	server start.
-	^server
+	^ server
 ]
 
 { #category : #'remote commands' }
