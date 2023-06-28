@@ -48,18 +48,24 @@ RedDebuggerTestCase >> assertStackModel: aStackModel modelsContextStacks: aStack
 
 { #category : #running }
 RedDebuggerTestCase >> setUp [
+
+	| dummyDebuggerActionModel |
 	super setUp.
-	
+
 	RedDebuggerServer reset.
 	debuggerServer := RedDebuggerServer current.
 
-	debugSession := StTestDebuggerProvider new
-		                debuggerWithRecursiveContext session.
+	dummyDebuggerActionModel := StTestDebuggerProvider new
+		                            debuggerWithRecursiveContext
+		                            debuggerActionModel.
+	debugSession := dummyDebuggerActionModel session.
+	dummyDebuggerActionModel clear.
+
 	debugger := RedDebugger basicNew
 		            debugSession: debugSession;
 		            yourself.
 
-	masterServer := RedMasterTestServer new 
+	masterServer := RedMasterTestServer new
 ]
 
 { #category : #running }
