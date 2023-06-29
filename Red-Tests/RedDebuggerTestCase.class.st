@@ -63,6 +63,7 @@ RedDebuggerTestCase >> setUp [
 
 	debugger := RedDebugger basicNew
 		            debugSession: debugSession;
+		            basicServer: debuggerServer;
 		            yourself.
 
 	masterServer := RedMasterTestServer new

@@ -35,7 +35,7 @@ RedRemoteContextModelTest >> testModelBlockContext [
 	self assert: model sender equals: nil.	
 	self assertModel: model modelsContext: context.
 	self assert: model isBlock.
-	self assert: model blockSource equals: context method sourceNode sourceCode
+	self assert: model source equals: context method sourceNode sourceCode
 
 
 

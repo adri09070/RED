@@ -104,7 +104,7 @@ RedDebugger >> interruptedContext [
 { #category : #accessing }
 RedDebugger >> localServer [
 
-	^ server
+	^ self server
 ]
 
 { #category : #api }
@@ -155,7 +155,7 @@ RedDebugger >> restartContext: aContext [
 { #category : #accessing }
 RedDebugger >> server [
 
-	^ server
+	^ server ifNil: [ server := RedDebuggerServer current ]
 ]
 
 { #category : #accessing }

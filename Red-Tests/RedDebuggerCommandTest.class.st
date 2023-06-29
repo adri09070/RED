@@ -18,22 +18,24 @@ RedDebuggerCommandTest >> setUp [
 
 { #category : #tests }
 RedDebuggerCommandTest >> testProceedCommand [
-	|process res resultContents |			
-	process := [res := 1] newProcess.
-	
-	debugSession terminate.	
-	debugSession := 
-		(StTestDebuggerProvider new debuggerWithContext: process suspendedContext) session.
+
+	| process res resultContents |
+	process := [ res := 1 ] newProcess.
+
+	debugSession terminate.
+	debugSession := (StTestDebuggerProvider new debuggerWithContext:
+		                 process suspendedContext) session.
 
 	debugger := RedDebugger basicNew
 		            debugSession: debugSession;
+		            basicServer: debuggerServer;
 		            yourself.
 	debuggerServer registerNewDebugger: debugger.
-	
-	command := RedDebuggerProceedCommand new 
-		contextHash: debugger interruptedContext hash;
-		debugSessionHash: debugSession hash;
-		yourself.
+
+	command := RedDebuggerProceedCommand new
+		           contextHash: debugger interruptedContext hash;
+		           debugSessionHash: debugSession hash;
+		           yourself.
 	result := command sendTo: debuggerServer url.
 	resultContents := STON fromString: result contents.
 
