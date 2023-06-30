@@ -33,8 +33,9 @@ RedDebugger class >> defaultDebuggerRank [
 RedDebugger >> clear [
 
 	self flag: 'todo'.
+	self localServer removeAndNotifyDebugger: self debugSessionHash.
 	self removeActionsForActionModel.
-	self debuggerActionModel clear.
+	self debuggerActionModel ifNotNil: [ debuggerActionModel clear ].
 	debuggerActionModel := nil
 ]
 
@@ -144,7 +145,8 @@ RedDebugger >> registerActionsForActionModel [
 { #category : #update }
 RedDebugger >> removeActionsForActionModel [
 
-	self debuggerActionModel unsubscribe: self
+	self debuggerActionModel ifNotNil: [
+		debuggerActionModel unsubscribe: self ]
 ]
 
 { #category : #api }

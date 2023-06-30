@@ -33,6 +33,35 @@ RedDebuggerClientTest >> testAnnouncer [
 ]
 
 { #category : #tests }
+RedDebuggerClientTest >> testClosedRemoteDebugger [
+
+	| presenter notification |
+	presenter := RedDebuggerClientPresenterMock new.
+	client registerForNewDebuggerAnnouncements: presenter.
+
+	self assert: client registeredDebuggers isEmpty.
+
+	client newRemoteDebugger: newDebuggerNotification.
+	notification := client registeredDebuggers at: 1.
+
+	self assert: notification identicalTo: newDebuggerNotification.
+	self
+		assert: presenter notification
+		identicalTo: newDebuggerNotification.
+
+	notification := RedRemoteDebuggerClosed new
+		                sessionHash:
+			                newDebuggerNotification sessionHash;
+		                remoteUrl: debuggerServer url;
+		                yourself.
+
+	client newClosedDebugger: notification.
+
+	self assertEmpty: client registeredDebuggers.
+	self assert: presenter notification identicalTo: notification
+]
+
+{ #category : #tests }
 RedDebuggerClientTest >> testExecuteRemoteCommandForContextInSession [
 
 	| remoteContext receivedCommand |

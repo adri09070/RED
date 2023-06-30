@@ -21,3 +21,9 @@ RedDebuggerClientPresenterMock >> notification [
 
 	^ notification
 ]
+
+{ #category : #accessing }
+RedDebuggerClientPresenterMock >> remoteDebuggerRemoved: anObject [
+
+	notification := anObject
+]

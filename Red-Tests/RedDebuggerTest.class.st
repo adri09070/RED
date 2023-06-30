@@ -60,12 +60,15 @@ RedDebuggerTest >> testInterruptedContext [
 
 { #category : #tests }
 RedDebuggerTest >> testProceed [
-	|process result|	
-	process := [result := 1] newProcess.
-	
-	debugSession terminate.	
-	debugSession := 
-		(StTestDebuggerProvider new debuggerWithContext: process suspendedContext) session.
+
+	| process result dummyActionModel |
+	process := [ result := 1 ] newProcess.
+
+	debugSession terminate.
+	dummyActionModel := (StTestDebuggerProvider new debuggerWithContext:
+		                     process suspendedContext) debuggerActionModel.
+	debugSession := dummyActionModel session.
+	dummyActionModel clear.
 
 	debugger := RedDebugger basicNew
 		            debugSession: debugSession;
@@ -154,22 +157,26 @@ RedDebuggerTest >> testStepOver [
 { #category : #tests }
 RedDebuggerTest >> testStepThrough [
 
-	|ast|
-	debugSession terminate.	
+	| ast |
+	debugSession terminate.
 	debugSession := StTestDebuggerProvider new sessionForDebuggerTests.
 
+	debugger clear.
 	debugger := RedDebugger basicNew
 		            debugSession: debugSession;
 		            yourself.
-		
+
 	debugger stepThrough: debugger interruptedContext.
-	ast := debugger interruptedContext method sourceNodeForPC: debugger interruptedContext pc.
+	ast := debugger interruptedContext method sourceNodeForPC:
+		       debugger interruptedContext pc.
 	self assert: ast isMessage.
 	self assert: ast selector equals: #squared.
 	self assert: ast receiver value equals: 1.
-	
+
 	debugger stepThrough: debugger interruptedContext.
-	ast := debugger interruptedContext method sourceNodeForPC: debugger interruptedContext pc.
-	self assert: debugger interruptedContext method equals: (Number>>#squared).
-	
+	ast := debugger interruptedContext method sourceNodeForPC:
+		       debugger interruptedContext pc.
+	self
+		assert: debugger interruptedContext method
+		equals: Number >> #squared
 ]

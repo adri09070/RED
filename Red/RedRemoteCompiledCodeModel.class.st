@@ -14,6 +14,14 @@ Class {
 	#category : #Red
 }
 
+{ #category : #comparing }
+RedRemoteCompiledCodeModel >> = anObject [
+
+	^ anObject class == self class and: [
+		  self class allSlots allSatisfy: [ :each |
+			  (each read: self) = (each read: anObject) ] ]
+]
+
 { #category : #accessing }
 RedRemoteCompiledCodeModel >> bytecodes [
 

@@ -20,6 +20,14 @@ Class {
 	#category : #Red
 }
 
+{ #category : #comparing }
+RedRemoteContextModel >> = anObject [
+
+	^ self class == anObject class and: [
+		  self class allSlots allSatisfy: [ :each |
+			  (each read: self) = (each read: anObject) ] ]
+]
+
 { #category : #accessing }
 RedRemoteContextModel >> compiledCode [
 

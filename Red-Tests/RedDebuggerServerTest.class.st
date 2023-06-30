@@ -71,6 +71,36 @@ RedDebuggerServerTest >> testRegisterNewDebugger [
 ]
 
 { #category : #tests }
+RedDebuggerServerTest >> testRemoveAndNotifyDebugger [
+
+	self assertEmpty: debuggerServer debuggers.
+
+	debuggerServer registerNewDebugger: debugger.
+
+	self
+		assert: (debuggerServer debuggerAt: debugger debugSessionHash)
+		identicalTo: debugger.
+
+	masterServer
+		withServerDo: [
+		debuggerServer removeAndNotifyDebugger: debugger debugSessionHash ]
+		route: 'closedDebugger'
+		port: RedDebuggerServer remoteDebuggerMasterPort.
+
+	self assertEmpty: debuggerServer debuggers.
+
+	masterNotification := masterServer masterNotification.
+
+	self
+		assert: masterNotification class
+		identicalTo: RedRemoteDebuggerClosed.
+	self
+		assert: masterNotification sessionHash
+		identicalTo: debugger debugSessionHash.
+	self assert: masterNotification remoteUrl equals: debuggerServer url
+]
+
+{ #category : #tests }
 RedDebuggerServerTest >> testRemoveDebugger [
 
 	self assertEmpty: debuggerServer debuggers.

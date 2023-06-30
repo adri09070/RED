@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'session',
 		'contextPredicate',
-		'stack'
+		'stack',
+		'client'
 	],
 	#category : #Red
 }
@@ -21,7 +22,13 @@ RedRemoteDebuggerActionModel class >> on: aRemoteDebugSession [
 { #category : #private }
 RedRemoteDebuggerActionModel >> client [
 
-	^ RedDebuggerClient current
+	^ client ifNil: [ client := RedDebuggerClient current ]
+]
+
+{ #category : #accessing }
+RedRemoteDebuggerActionModel >> client: anObject [
+
+	client := anObject
 ]
 
 { #category : #initialization }
