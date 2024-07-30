@@ -1,16 +1,17 @@
 Class {
-	#name : #RedRemoteDebuggerActionModel,
-	#superclass : #Object,
+	#name : 'RedRemoteDebuggerActionModel',
+	#superclass : 'Object',
 	#instVars : [
 		'session',
 		'contextPredicate',
 		'stack',
 		'client'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RedRemoteDebuggerActionModel class >> on: aRemoteDebugSession [
 
 	^ self basicNew
@@ -19,32 +20,32 @@ RedRemoteDebuggerActionModel class >> on: aRemoteDebugSession [
 		  yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RedRemoteDebuggerActionModel >> client [
 
 	^ client ifNil: [ client := RedDebuggerClient current ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerActionModel >> client: anObject [
 
 	client := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedRemoteDebuggerActionModel >> initialize [
 
 	super initialize.
 	self updateStack
 ]
 
-{ #category : #'debugging actions' }
+{ #category : 'debugging actions' }
 RedRemoteDebuggerActionModel >> proceedDebugSession [
 
 	stack := self client proceedSession: session
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 RedRemoteDebuggerActionModel >> recompileMethodTo: aString inContext: aContext notifying: aNotifyer [
 
 	stack := self client
@@ -55,7 +56,7 @@ RedRemoteDebuggerActionModel >> recompileMethodTo: aString inContext: aContext n
 	self updateContextChanged
 ]
 
-{ #category : #'debug - execution' }
+{ #category : 'debug - execution' }
 RedRemoteDebuggerActionModel >> restartContext: aContext [
 
 	stack := self client restart: aContext inSession: session.
@@ -63,70 +64,70 @@ RedRemoteDebuggerActionModel >> restartContext: aContext [
 	self updateRestart
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerActionModel >> session [
 
 	^ session
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerActionModel >> session: anObject [
 
 	session := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerActionModel >> stack [
 
 	^ stack
 ]
 
-{ #category : #'debugging actions' }
+{ #category : 'debugging actions' }
 RedRemoteDebuggerActionModel >> stepInto: aContext [
 
 	stack := self client into: aContext inSession: session.
 	self updateStep 
 ]
 
-{ #category : #'debugging actions' }
+{ #category : 'debugging actions' }
 RedRemoteDebuggerActionModel >> stepOver: aContext [
 
 	stack := self client over: aContext inSession: session.
 	self updateStep
 ]
 
-{ #category : #'debugging actions' }
+{ #category : 'debugging actions' }
 RedRemoteDebuggerActionModel >> stepThrough: aContext [
 
 	stack := self client through: aContext inSession: session.
 	self updateStep
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerActionModel >> topContext [
 
 	^ self stack at: 1 ifAbsent: [ nil ]
 ]
 
-{ #category : #'updating - actions' }
+{ #category : 'updating - actions' }
 RedRemoteDebuggerActionModel >> updateContextChanged [
 
 	self updateStep 
 ]
 
-{ #category : #'updating - actions' }
+{ #category : 'updating - actions' }
 RedRemoteDebuggerActionModel >> updateRestart [
 
 	self updateStep
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedRemoteDebuggerActionModel >> updateStack [
 
 	stack := self client stackFor: session
 ]
 
-{ #category : #'updating - actions' }
+{ #category : 'updating - actions' }
 RedRemoteDebuggerActionModel >> updateStep [
 
 	

@@ -3,17 +3,18 @@ I am an erzats of the StDebugger, designed to prototype a remote debugger.
 I am the main GUI tool to debug remote debug sessions.
 "
 Class {
-	#name : #RedRemoteDebuggerPresenter,
-	#superclass : #RedAbstractDebuggerPresenter,
+	#name : 'RedRemoteDebuggerPresenter',
+	#superclass : 'RedAbstractDebuggerPresenter',
 	#instVars : [
 		'stack',
 		'code',
 		'debuggerActionModel'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #layout }
+{ #category : 'layout' }
 RedRemoteDebuggerPresenter class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
@@ -23,13 +24,13 @@ RedRemoteDebuggerPresenter class >> defaultLayout [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RedRemoteDebuggerPresenter class >> openOn: aRemote [
 
 	(self on: aRemote) open
 ]
 
-{ #category : #building }
+{ #category : 'building' }
 RedRemoteDebuggerPresenter >> buildToolbar [
 
 	| commandGroup |
@@ -64,13 +65,13 @@ RedRemoteDebuggerPresenter >> buildToolbar [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerPresenter >> debuggerActionModel [
 
 	^ debuggerActionModel
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedRemoteDebuggerPresenter >> initializePresenters [
 
 	super initializePresenters.
@@ -112,21 +113,21 @@ RedRemoteDebuggerPresenter >> initializePresenters [
 	self updateStack
 ]
 
-{ #category : #'remote actions' }
+{ #category : 'remote actions' }
 RedRemoteDebuggerPresenter >> into [
 
 	self debuggerActionModel stepInto: stack selectedItem.
 	self updateStep
 ]
 
-{ #category : #'remote actions' }
+{ #category : 'remote actions' }
 RedRemoteDebuggerPresenter >> over [
 
 	self debuggerActionModel stepOver: stack selectedItem.
 	self updateStep
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RedRemoteDebuggerPresenter >> printReceiverClass: aRemoteContext [
 
 	| receiverClassName method methodClassName |
@@ -144,7 +145,7 @@ RedRemoteDebuggerPresenter >> printReceiverClass: aRemoteContext [
 		  contents
 ]
 
-{ #category : #'remote actions' }
+{ #category : 'remote actions' }
 RedRemoteDebuggerPresenter >> proceed [
 
 	self debuggerActionModel proceedDebugSession.
@@ -152,7 +153,7 @@ RedRemoteDebuggerPresenter >> proceed [
 	self withWindowDo: #close
 ]
 
-{ #category : #'remote actions' }
+{ #category : 'remote actions' }
 RedRemoteDebuggerPresenter >> recompileCurrentContextWithNewSource [
 	|remoteContext newSource|
 	remoteContext := stack selectedItem.
@@ -165,38 +166,38 @@ RedRemoteDebuggerPresenter >> recompileCurrentContextWithNewSource [
 	"self updateCodeFromContext: stack selectedItem"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerPresenter >> remote [
 
 	^ self debuggerActionModel session
 ]
 
-{ #category : #'remote actions' }
+{ #category : 'remote actions' }
 RedRemoteDebuggerPresenter >> restart [
 
 	self debuggerActionModel restartContext: stack selectedItem.
 	self updateRestart
 ]
 
-{ #category : #'accessing - model' }
+{ #category : 'accessing - model' }
 RedRemoteDebuggerPresenter >> setModelBeforeInitialization: aRemote [
 
 	debuggerActionModel := RedRemoteDebuggerActionModel on: aRemote
 ]
 
-{ #category : #'remote actions' }
+{ #category : 'remote actions' }
 RedRemoteDebuggerPresenter >> through [
 
 	self debuggerActionModel stepThrough: stack selectedItem.
 	self updateStep
 ]
 
-{ #category : #TOREMOVE }
+{ #category : 'TOREMOVE' }
 RedRemoteDebuggerPresenter >> title [
 	^ self remote sessionDescription 
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 RedRemoteDebuggerPresenter >> updateCodeFromContext: aRemoteContext [
 
 	| source selectionInterval |
@@ -212,32 +213,32 @@ RedRemoteDebuggerPresenter >> updateCodeFromContext: aRemoteContext [
 			 yourself)
 ]
 
-{ #category : #'updating - actions' }
+{ #category : 'updating - actions' }
 RedRemoteDebuggerPresenter >> updateContextChanged [
 
 	self updateStep
 ]
 
-{ #category : #'updating - actions' }
+{ #category : 'updating - actions' }
 RedRemoteDebuggerPresenter >> updateRestart [
 
 	self updateStep
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 RedRemoteDebuggerPresenter >> updateStack [
 
 	self updateStack: debuggerActionModel stack
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 RedRemoteDebuggerPresenter >> updateStack: remoteContexts [
 
 	stack items: remoteContexts.
 	stack selectIndex: 1
 ]
 
-{ #category : #'updating - actions' }
+{ #category : 'updating - actions' }
 RedRemoteDebuggerPresenter >> updateStep [
 
 	self updateStack

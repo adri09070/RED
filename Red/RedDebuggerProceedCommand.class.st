@@ -2,29 +2,30 @@
 I order the debugger holding the debug session represented by the debugSession hash I hold to proceed
 "
 Class {
-	#name : #RedDebuggerProceedCommand,
-	#superclass : #RedDebuggerCommand,
-	#category : #Red
+	#name : 'RedDebuggerProceedCommand',
+	#superclass : 'RedDebuggerCommand',
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #options }
+{ #category : 'options' }
 RedDebuggerProceedCommand class >> route [
 	^'proceed'
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 RedDebuggerProceedCommand >> answer [
 	^{}
 			
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 RedDebuggerProceedCommand >> execute [
 	debugger proceed
 			
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 RedDebuggerProceedCommand >> findContext [
 	"I don't need any context"
 ]

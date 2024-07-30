@@ -5,15 +5,16 @@ I present the available remote debug sessions and allows for quick actions:
 - kill
 "
 Class {
-	#name : #RedRemoteDebugSessionsPresenter,
-	#superclass : #RedAbstractDebuggerPresenter,
+	#name : 'RedRemoteDebugSessionsPresenter',
+	#superclass : 'RedAbstractDebuggerPresenter',
 	#instVars : [
 		'sessions'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #all }
+{ #category : 'all' }
 RedRemoteDebugSessionsPresenter class >> debugWorldMenuOn: aBuilder [
 
 	<worldMenu>
@@ -29,7 +30,7 @@ RedRemoteDebugSessionsPresenter class >> debugWorldMenuOn: aBuilder [
 		action: [ self new open ]
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 RedRemoteDebugSessionsPresenter class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
@@ -38,7 +39,7 @@ RedRemoteDebugSessionsPresenter class >> defaultLayout [
 		  yourself
 ]
 
-{ #category : #building }
+{ #category : 'building' }
 RedRemoteDebugSessionsPresenter >> buildToolbar [
 
 	| commandGroup |
@@ -62,19 +63,19 @@ RedRemoteDebugSessionsPresenter >> buildToolbar [
 		  yourself
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 RedRemoteDebugSessionsPresenter >> debugSelection [
 
 	RedRemoteDebuggerPresenter openOn: sessions selectedItem
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedRemoteDebugSessionsPresenter >> initialize [
 	super initialize.
 	RedDebuggerClient current registerForNewDebuggerAnnouncements: self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedRemoteDebugSessionsPresenter >> initializePresenters [
 
 	super initializePresenters.
@@ -93,24 +94,24 @@ RedRemoteDebugSessionsPresenter >> initializePresenters [
 	sessions items: RedDebuggerClient current registeredDebuggers values
 ]
 
-{ #category : #announcements }
+{ #category : 'announcements' }
 RedRemoteDebugSessionsPresenter >> newRemoteDebugger: anObject [
 
 	sessions items: RedDebuggerClient current registeredDebuggers values
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 RedRemoteDebugSessionsPresenter >> proceedSelection [
 	RedDebuggerClient current proceedSession: sessions selectedItem
 ]
 
-{ #category : #announcements }
+{ #category : 'announcements' }
 RedRemoteDebugSessionsPresenter >> remoteDebuggerRemoved: aRedRemoteDebuggerClosedAnnouncement [
 
 	sessions items: RedDebuggerClient current registeredDebuggers values
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedRemoteDebugSessionsPresenter >> title [
 	 ^'Red sessions'
 ]

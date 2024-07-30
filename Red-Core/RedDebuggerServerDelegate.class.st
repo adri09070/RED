@@ -3,20 +3,21 @@ I am the Zinc delegate for RedDebuggerServer.
 I basically receive remote debugging instructions and transmit them to my RedDebuggerServer owner.
 "
 Class {
-	#name : #RedDebuggerServerDelegate,
-	#superclass : #ZnDefaultServerDelegate,
+	#name : 'RedDebuggerServerDelegate',
+	#superclass : 'ZnDefaultServerDelegate',
 	#instVars : [
 		'server'
 	],
-	#category : #Red
+	#category : 'Red-Core',
+	#package : 'Red-Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RedDebuggerServerDelegate class >> on: aRedDebuggerServer [
 	^self new server: aRedDebuggerServer
 ]
 
-{ #category : #responses }
+{ #category : 'responses' }
 RedDebuggerServerDelegate >> execute: request [
 
 	| command responseData |
@@ -25,7 +26,7 @@ RedDebuggerServerDelegate >> execute: request [
 	^ ZnResponse ok: (ZnEntity text: (STON toString: responseData))
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedDebuggerServerDelegate >> initialize [
 
 	self
@@ -38,7 +39,7 @@ RedDebuggerServerDelegate >> initialize [
 		map: 'recompile' to: #execute:
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerServerDelegate >> server: aRedDebuggerServer [
 	server := aRedDebuggerServer.
 	aRedDebuggerServer delegate: self

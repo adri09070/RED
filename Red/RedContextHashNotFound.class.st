@@ -4,27 +4,28 @@ I am signaled when a RedDebugger instance attempted to find a context a hash in 
 Hence, there is no context with that hash in the current stack.
 "
 Class {
-	#name : #RedContextHashNotFound,
-	#superclass : #Error,
+	#name : 'RedContextHashNotFound',
+	#superclass : 'Error',
 	#instVars : [
 		'contextHash'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedContextHashNotFound >> contextHash [
 
 	^ contextHash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedContextHashNotFound >> contextHash: anObject [
 
 	contextHash := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RedContextHashNotFound >> printOn: aStream [
 	aStream << 'No context with the following hash was found:'.
 	aStream space.

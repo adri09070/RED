@@ -5,47 +5,48 @@ I just hold information to notify a RedDebuggerClient that a new debugger just o
 - a remote ZnUrl to join the remote debugger server who created me
 "
 Class {
-	#name : #RedNewRemoteDebugger,
-	#superclass : #Announcement,
+	#name : 'RedNewRemoteDebugger',
+	#superclass : 'Announcement',
 	#instVars : [
 		'sessionHash',
 		'sessionDescription',
 		'remoteUrl'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedNewRemoteDebugger >> remoteUrl [
 
 	^ remoteUrl
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedNewRemoteDebugger >> remoteUrl: anObject [
 
 	remoteUrl := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedNewRemoteDebugger >> sessionDescription [
 
 	^ sessionDescription
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedNewRemoteDebugger >> sessionDescription: anObject [
 
 	sessionDescription := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedNewRemoteDebugger >> sessionHash [
 
 	^ sessionHash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedNewRemoteDebugger >> sessionHash: anObject [
 
 	sessionHash := anObject

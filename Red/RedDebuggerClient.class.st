@@ -5,8 +5,8 @@ I have:
 - server -> for convenience of a first demo, I also have an http that receives notifications of remote debugger openings
 "
 Class {
-	#name : #RedDebuggerClient,
-	#superclass : #Object,
+	#name : 'RedDebuggerClient',
+	#superclass : 'Object',
 	#instVars : [
 		'server',
 		'registeredDebuggers',
@@ -15,28 +15,29 @@ Class {
 	#classInstVars : [
 		'current'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerClient class >> current [
 	^current ifNil:[current := self new]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerClient class >> reset [
 	<script>
 	current ifNotNil: [ current stop ].
 	current := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerClient >> announcer [
 
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> executeRemoteCommand: command forContext: remoteContextModel inSession: remote [
 
 	| response |
@@ -46,12 +47,12 @@ RedDebuggerClient >> executeRemoteCommand: command forContext: remoteContextMode
 	^ STON fromString: response contents
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedDebuggerClient >> initialize [
 	self server
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> into: remoteContextModel inSession: remote [
 
 	^ self
@@ -60,7 +61,7 @@ RedDebuggerClient >> into: remoteContextModel inSession: remote [
 		  inSession: remote
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 RedDebuggerClient >> newClosedDebugger: aRemoteDebuggerClosedAnnouncement [
 
 	self registeredDebuggers removeKey:
@@ -68,7 +69,7 @@ RedDebuggerClient >> newClosedDebugger: aRemoteDebuggerClosedAnnouncement [
 	self announcer announce: aRemoteDebuggerClosedAnnouncement
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 RedDebuggerClient >> newRemoteDebugger: aNewRemoteDebuggerOpeningAnnouncement [
 
 	self registeredDebuggers
@@ -77,7 +78,7 @@ RedDebuggerClient >> newRemoteDebugger: aNewRemoteDebuggerOpeningAnnouncement [
 	self announcer announce: aNewRemoteDebuggerOpeningAnnouncement
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> over: remoteContextModel inSession: remote [
 
 	^ self
@@ -86,7 +87,7 @@ RedDebuggerClient >> over: remoteContextModel inSession: remote [
 		  inSession: remote
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> proceed: remoteContextModel inSession: remote [
 
 	self
@@ -96,7 +97,7 @@ RedDebuggerClient >> proceed: remoteContextModel inSession: remote [
 	self announcer announce: RedRemoteDebuggerClosed new
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> proceedSession: remote [
 
 	| stack |
@@ -104,7 +105,7 @@ RedDebuggerClient >> proceedSession: remote [
 	self proceed: stack first inSession: remote
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> recompile: remoteContextModel inSession: remote withSource: aString [
 
 	^ self
@@ -113,20 +114,20 @@ RedDebuggerClient >> recompile: remoteContextModel inSession: remote withSource:
 		  inSession: remote
 ]
 
-{ #category : #announcements }
+{ #category : 'announcements' }
 RedDebuggerClient >> registerForNewDebuggerAnnouncements: anObject [
 	
 	self announcer weak when: RedNewRemoteDebugger send: #newRemoteDebugger: to: anObject.
 	self announcer weak when: RedRemoteDebuggerClosed send: #remoteDebuggerRemoved: to: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerClient >> registeredDebuggers [
 
 	^ registeredDebuggers ifNil:[registeredDebuggers := Dictionary new]
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> restart: remoteContextModel inSession: remote [
 
 	^ self
@@ -135,7 +136,7 @@ RedDebuggerClient >> restart: remoteContextModel inSession: remote [
 		  inSession: remote
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 RedDebuggerClient >> server [
 
 	server ifNotNil: [ ^ server ].
@@ -152,7 +153,7 @@ RedDebuggerClient >> server [
 	^ server
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> stackFor: remote [
 
 	^ self
@@ -161,13 +162,13 @@ RedDebuggerClient >> stackFor: remote [
 		  inSession: remote
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 RedDebuggerClient >> stop [
 
 	server ifNotNil: [ :s | s stop ]
 ]
 
-{ #category : #'remote commands' }
+{ #category : 'remote commands' }
 RedDebuggerClient >> through: remoteContextModel inSession: remote [
 
 	^ self

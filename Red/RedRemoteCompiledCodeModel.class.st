@@ -1,6 +1,6 @@
 Class {
-	#name : #RedRemoteCompiledCodeModel,
-	#superclass : #Object,
+	#name : 'RedRemoteCompiledCodeModel',
+	#superclass : 'Object',
 	#instVars : [
 		'methodClassName',
 		'methodSelector',
@@ -11,10 +11,11 @@ Class {
 		'endPc',
 		'bytecodes'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RedRemoteCompiledCodeModel >> = anObject [
 
 	^ anObject class == self class and: [
@@ -22,73 +23,73 @@ RedRemoteCompiledCodeModel >> = anObject [
 			  (each read: self) = (each read: anObject) ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> bytecodes [
 
 	^ bytecodes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> endPc [
 
 	^ endPc
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RedRemoteCompiledCodeModel >> isBlock [
 
 	^ isBlock
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RedRemoteCompiledCodeModel >> isDoIt [
 
 	^ self methodSelector = 'DoIt'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> methodClass [
 
 	^ self class
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> methodClassName [
 
 	^ methodClassName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> methodSelector [
 
 	^ methodSelector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> packageName [
 
 	^ packageName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> selector [
 
 	^ self methodSelector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> sourceCode [
 
 	^ sourceCode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> startPc [
 
 	^ startPc
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteCompiledCodeModel >> visitCompiledCode: aCompiledCode [
 
 	packageName := aCompiledCode package

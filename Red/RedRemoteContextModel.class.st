@@ -7,8 +7,8 @@ I know the hash of the context I model.
 I do not know the map of hashs <-> contexts, see RedDebugger class for that.
 "
 Class {
-	#name : #RedRemoteContextModel,
-	#superclass : #Object,
+	#name : 'RedRemoteContextModel',
+	#superclass : 'Object',
 	#instVars : [
 		'contextHash',
 		'sender',
@@ -17,10 +17,11 @@ Class {
 		'pc',
 		'selectionInterval'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RedRemoteContextModel >> = anObject [
 
 	^ self class == anObject class and: [
@@ -28,32 +29,32 @@ RedRemoteContextModel >> = anObject [
 			  (each read: self) = (each read: anObject) ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> compiledCode [
 
 	^ compiledCodeModel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> contextHash [
 
 	^ contextHash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> contextHash: anObject [
 
 	contextHash := anObject
 ]
 
-{ #category : #searching }
+{ #category : 'searching' }
 RedRemoteContextModel >> findMethod [
 
 	self flag: 'untested'.
 	^ compiledCodeModel
 ]
 
-{ #category : #searching }
+{ #category : 'searching' }
 RedRemoteContextModel >> findSmalltalkClass [
 	|tokens class|
 	self flag: 'untested'.
@@ -63,49 +64,49 @@ RedRemoteContextModel >> findSmalltalkClass [
 	^class
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RedRemoteContextModel >> isBlock [
 
 	^ compiledCodeModel isBlock
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RedRemoteContextModel >> isDoIt [
 
 	^ self methodSelector = 'DoIt'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> methodSelector [
 
 	^ compiledCodeModel methodSelector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> packageName [
 
 	^ compiledCodeModel packageName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> pc [
 
 	^ pc
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> receiverClassName [
 
 	^ receiverClassName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> selectionInterval [
 
 	^ selectionInterval
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RedRemoteContextModel >> selectionIntervalFor: aContext [
 
 	| node |
@@ -114,25 +115,25 @@ RedRemoteContextModel >> selectionIntervalFor: aContext [
 	^ node start to: node stop + 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> sender [
 
 	^ sender
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> sender: anObject [
 
 	sender := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteContextModel >> source [
 
 	^ self compiledCode sourceCode
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RedRemoteContextModel >> visitContext: aContext [
 
 	| str |

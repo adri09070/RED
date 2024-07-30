@@ -2,20 +2,21 @@
 Common behavior and state for all remote debuggers.
 "
 Class {
-	#name : #RedAbstractDebuggerPresenter,
-	#superclass : #SpPresenter,
+	#name : 'RedAbstractDebuggerPresenter',
+	#superclass : 'SpPresenter',
 	#instVars : [
 		'toolbar'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #building }
+{ #category : 'building' }
 RedAbstractDebuggerPresenter >> buildToolbar [ 
 	^self subclassResponsibility 
 ]
 
-{ #category : #building }
+{ #category : 'building' }
 RedAbstractDebuggerPresenter >> buildToolbarButtonLabeled: buttonLabel action: aBlock iconNamed: aSymbol [
 
 	^ ((CmBlockCommand forContext: self)
@@ -24,7 +25,7 @@ RedAbstractDebuggerPresenter >> buildToolbarButtonLabeled: buttonLabel action: a
 		   yourself) asSpecCommandWithIconNamed: aSymbol
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedAbstractDebuggerPresenter >> initializePresenters [
 	super initializePresenters.
 	toolbar := self buildToolbar.

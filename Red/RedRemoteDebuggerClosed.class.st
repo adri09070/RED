@@ -2,34 +2,35 @@
 I just announce locally that a remote debugger has terminated
 "
 Class {
-	#name : #RedRemoteDebuggerClosed,
-	#superclass : #Announcement,
+	#name : 'RedRemoteDebuggerClosed',
+	#superclass : 'Announcement',
 	#instVars : [
 		'sessionHash',
 		'remoteUrl'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerClosed >> remoteUrl [
 
 	^ remoteUrl
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerClosed >> remoteUrl: anObject [
 
 	remoteUrl := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerClosed >> sessionHash [
 
 	^ sessionHash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedRemoteDebuggerClosed >> sessionHash: anObject [
 
 	sessionHash := anObject

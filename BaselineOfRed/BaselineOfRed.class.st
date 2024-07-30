@@ -16,6 +16,7 @@ BaselineOfRed >> baseline: spec [
 			loads: 'default' ].
 		
 		spec
-			package: 'Red' with: [ spec requires: #( 'PyBridge' ) ];
+			package: 'Red-Core';
+			package: 'Red' with: [ spec requires: #( 'Red-Core' 'PyBridge' ) ];
 			package: 'Red-Tests' ]
 ]

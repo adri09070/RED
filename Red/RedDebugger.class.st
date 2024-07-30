@@ -4,18 +4,19 @@ When an exception occurs, I catch it and register myself to the local server.
 I then await for remote debugging instructions.
 "
 Class {
-	#name : #RedDebugger,
-	#superclass : #Object,
+	#name : 'RedDebugger',
+	#superclass : 'Object',
 	#traits : 'TDebugger',
 	#classTraits : 'TDebugger classTrait',
 	#instVars : [
 		'debuggerActionModel',
 		'server'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RedDebugger class >> debugSession: aDebugSession [
 
 	^ self basicNew
@@ -23,13 +24,13 @@ RedDebugger class >> debugSession: aDebugSession [
 		  initialize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger class >> defaultDebuggerRank [
 
 	^ 10
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> clear [
 
 	self flag: 'todo'.
@@ -39,7 +40,7 @@ RedDebugger >> clear [
 	debuggerActionModel := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> debugSession [
 
 	^ self debuggerActionModel
@@ -47,7 +48,7 @@ RedDebugger >> debugSession [
 		  ifNil: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> debugSession: aDebugSession [
 
 	self debuggerActionModel
@@ -57,29 +58,29 @@ RedDebugger >> debugSession: aDebugSession [
 			self registerActionsForActionModel ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> debugSessionHash [
 	^self debugSession hash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> debugSessionHashString [
 	^self debugSessionHash printString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> debuggerActionModel [
 
 	^ debuggerActionModel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> debuggerActionModel: anObject [
 
 	debuggerActionModel := anObject
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> findContextFromhash: anInteger [
 
 	^ self debuggerActionModel session stack
@@ -90,38 +91,38 @@ RedDebugger >> findContextFromhash: anInteger [
 				  signal ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedDebugger >> initialize [
 
 	super initialize.
 	self server: RedDebuggerServer current
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> interruptedContext [
 	^self debuggerActionModel interruptedContext 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> localServer [
 
 	^ self server
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> proceed [
 
 	self localServer removeAndNotifyDebugger: self debugSessionHash.
 	self debuggerActionModel proceedDebugSession
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> recompileContext: context with: source [
 	self flag: 'untested'.
 	self debuggerActionModel recompileMethodTo: source inContext: context notifying: nil
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebugger >> registerActionsForActionModel [
 
 	self debuggerActionModel
@@ -142,25 +143,25 @@ RedDebugger >> registerActionsForActionModel [
 		to: self
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebugger >> removeActionsForActionModel [
 
 	self debuggerActionModel ifNotNil: [
 		debuggerActionModel unsubscribe: self ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> restartContext: aContext [ 
 	self debuggerActionModel restartContext: aContext
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> server [
 
 	^ server ifNil: [ server := RedDebuggerServer current ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebugger >> server: anObject [
 
 	server ifNotNil: [
@@ -169,7 +170,7 @@ RedDebugger >> server: anObject [
 	self localServer registerAndNotifyNewDebugger: self
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> stack [
 
 	| stackModel stack |
@@ -184,46 +185,46 @@ RedDebugger >> stack [
 	^ stack
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> stepInto: aContext [
 	self debuggerActionModel stepInto: aContext
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> stepOver: aContext [ 
 	self debuggerActionModel stepOver: aContext
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 RedDebugger >> stepThrough: aContext [ 
 	self debuggerActionModel stepThrough: aContext
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebugger >> updateContextChanged: anActionModelContextChangedAnnouncement [
 
 	self server updateContextChangedForSessionHash: self debugSessionHash
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebugger >> updateMethodAdded: anActionModelMethodAddedAnnouncement [
 
 	self server updateMethodAddedForSessionHash: self debugSessionHash
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebugger >> updateRestart: anActionModelRestartAnnouncement [
 
 	self server updateRestartForSessionHash: self debugSessionHash
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebugger >> updateResume: anActionModelResumeAnnouncement [
 
 	self server updateResumeForSessionHash: self debugSessionHash 
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebugger >> updateStep: anActionModelStepAnnouncement [
 
 	self server updateStepForSessionHash: self debugSessionHash

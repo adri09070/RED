@@ -6,8 +6,8 @@ There is only one of me in the system, but there could be many.
 I am just a prototype for now.
 "
 Class {
-	#name : #RedDebuggerServer,
-	#superclass : #Object,
+	#name : 'RedDebuggerServer',
+	#superclass : 'Object',
 	#instVars : [
 		'debuggers',
 		'server',
@@ -18,50 +18,51 @@ Class {
 		'availableAutomatically',
 		'current'
 	],
-	#category : #Red
+	#category : 'Red',
+	#package : 'Red'
 }
 
-{ #category : #'API - remotes' }
+{ #category : 'API - remotes' }
 RedDebuggerServer class >> closedRemoteDebuggerNotificationURL [
 
 	^ ZnUrl fromString: 'http://localhost:8000/closedDebugger'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RedDebuggerServer class >> current [
 	^current ifNil:[current := self new]
 ]
 
-{ #category : #'API - remotes' }
+{ #category : 'API - remotes' }
 RedDebuggerServer class >> newRemoteDebuggerNotificationURL [
 	^ZnUrl fromString: 'http://localhost:8000/newDebugger'
 ]
 
-{ #category : #'API - remotes' }
+{ #category : 'API - remotes' }
 RedDebuggerServer class >> remoteDebuggerMasterPort [
 	^8000
 ]
 
-{ #category : #'API - remotes' }
+{ #category : 'API - remotes' }
 RedDebuggerServer class >> remoteDebuggerMasterURL [
 
 	^ ZnUrl fromString:
 		  'http://localhost:' , self remoteDebuggerMasterPort printString
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedDebuggerServer class >> reset [
 	<script>
 	self current reset.
 	current := nil
 ]
 
-{ #category : #'API - remotes' }
+{ #category : 'API - remotes' }
 RedDebuggerServer class >> url [
 	^ZnUrl fromString: 'http://localhost:8008'
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> closedRemoteDebuggerNotificationFor: aDebugSessionHash [
 
 	^ RedRemoteDebuggerClosed new
@@ -70,30 +71,30 @@ RedDebuggerServer >> closedRemoteDebuggerNotificationFor: aDebugSessionHash [
 		  yourself
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> debuggerAt: anInteger [
 
 	^ self debuggers at: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerServer >> debuggers [
 
 	^ debuggers ifNil: [ debuggers := Dictionary new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerServer >> debuggers: anObject [
 
 	debuggers := anObject
 ]
 
-{ #category : #options }
+{ #category : 'options' }
 RedDebuggerServer >> delegate: aZnDelegate [
 	server delegate: aZnDelegate
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RedDebuggerServer >> initialize [
 	server := ZnServer on: 8008.
 	RedDebuggerServerDelegate on: self.
@@ -101,7 +102,7 @@ RedDebuggerServer >> initialize [
 	server start
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> newRemoteDebuggerNotificationFor: aDebugger [
 
 	^ RedNewRemoteDebugger new
@@ -111,7 +112,7 @@ RedDebuggerServer >> newRemoteDebuggerNotificationFor: aDebugger [
 		  yourself
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> notifyMasterForClosedDebugger: aDebugSessionHash [
 
 	[
@@ -123,7 +124,7 @@ RedDebuggerServer >> notifyMasterForClosedDebugger: aDebugSessionHash [
 		do: [  ]
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> notifyMasterForNewOpenedDebugger: aDebugger [
 
 	ZnEasy
@@ -131,14 +132,14 @@ RedDebuggerServer >> notifyMasterForNewOpenedDebugger: aDebugger [
 		data: (ZnEntity text: (STON toString: (self newRemoteDebuggerNotificationFor: aDebugger)))
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> registerAndNotifyNewDebugger: aRedDebugger [
 
 	self registerNewDebugger: aRedDebugger.
 	self notifyMasterForNewOpenedDebugger: aRedDebugger 
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 
 	self debuggers at: aRedDebugger debugSessionHash put: aRedDebugger.
@@ -147,72 +148,72 @@ RedDebuggerServer >> registerNewDebugger: aRedDebugger [
 		put: Semaphore forMutualExclusion
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebuggerServer >> releaseSemaphoreAt: sessionHash [
 
 	(self semaphores at: sessionHash) signal
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> removeAndNotifyDebugger: aDebugSessionHash [
 
 	self removeDebugger: aDebugSessionHash.
 	self notifyMasterForClosedDebugger: aDebugSessionHash
 ]
 
-{ #category : #debuggers }
+{ #category : 'debuggers' }
 RedDebuggerServer >> removeDebugger: aDebugSessionHash [
 
 	self debuggers removeKey: aDebugSessionHash ifAbsent: [  ].
 	self semaphores removeKey: aDebugSessionHash ifAbsent: [  ]
 ]
 
-{ #category : #initialize }
+{ #category : 'initialize' }
 RedDebuggerServer >> reset [
 	server stop.
 	self debuggers do:[:d| d clear].
 	debuggers removeAll
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerServer >> semaphores [
 
 	^ semaphores
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerServer >> server [
 	^ server
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebuggerServer >> updateContextChangedForSessionHash: sessionHash [
 
 	self releaseSemaphoreAt: sessionHash.
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebuggerServer >> updateMethodAddedForSessionHash: sessionHash [
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebuggerServer >> updateRestartForSessionHash: sessionHash [
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebuggerServer >> updateResumeForSessionHash: sessionHash [
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 RedDebuggerServer >> updateStepForSessionHash: sessionHash [
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerServer >> url [
 	^self class url
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerServer >> waitOnSemaphoreAt: debugSessionHash [
 
 	(self semaphores at: debugSessionHash) wait
