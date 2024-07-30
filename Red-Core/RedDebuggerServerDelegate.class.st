@@ -14,7 +14,8 @@ Class {
 
 { #category : 'instance creation' }
 RedDebuggerServerDelegate class >> on: aRedDebuggerServer [
-	^self new server: aRedDebuggerServer
+
+	^ self new server: aRedDebuggerServer
 ]
 
 { #category : 'responses' }
