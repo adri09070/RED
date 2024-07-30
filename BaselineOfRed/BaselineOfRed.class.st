@@ -9,14 +9,14 @@ Class {
 BaselineOfRed >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ 
-		spec baseline: 'PyBridge' with: [ 
+	spec for: #common do: [
+		spec baseline: 'PyBridge' with: [
+			spec
+				repository: 'github://adri09070/pybridge:pharo-bridge/src';
+				loads: 'default' ].
+
 		spec
-			repository: 'github://adri09070/pybridge:pharo-bridge/src' ;
-			load ].
-		
-		spec
-			package: 'Red-Core';
-			package: 'Red' with: [ spec requires: #( 'Red-Core' 'PyBridge' ) ];
+			package: 'Red-Core' with: [ spec requires: #( 'PyBridge' ) ];
+			package: 'Red' with: [ spec requires: #( 'Red-Core' ) ];
 			package: 'Red-Tests' ]
 ]
