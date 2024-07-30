@@ -13,7 +13,7 @@ BaselineOfRed >> baseline: spec [
 		spec baseline: 'PyBridge' with: [ 
 		spec
 			repository: 'github://adri09070/pybridge:pharo-bridge/src' ;
-			loads: 'default' ].
+			load ].
 		
 		spec
 			package: 'Red-Core';
