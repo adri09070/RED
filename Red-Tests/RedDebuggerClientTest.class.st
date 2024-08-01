@@ -1,14 +1,15 @@
 Class {
-	#name : #RedDebuggerClientTest,
-	#superclass : #RedDebuggerTestCase,
+	#name : 'RedDebuggerClientTest',
+	#superclass : 'RedDebuggerTestCase',
 	#instVars : [
 		'client',
 		'newDebuggerNotification'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 RedDebuggerClientTest >> setUp [
 
 	super setUp.
@@ -20,19 +21,19 @@ RedDebuggerClientTest >> setUp [
 		                           remoteUrl: 3
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedDebuggerClientTest >> tearDown [
 
 	client stop.
 	super tearDown
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerClientTest >> testAnnouncer [
 	self assert: client announcer notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerClientTest >> testClosedRemoteDebugger [
 
 	| presenter notification |
@@ -61,7 +62,7 @@ RedDebuggerClientTest >> testClosedRemoteDebugger [
 	self assert: presenter notification identicalTo: notification
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerClientTest >> testExecuteRemoteCommandForContextInSession [
 
 	| remoteContext receivedCommand |
@@ -85,7 +86,7 @@ RedDebuggerClientTest >> testExecuteRemoteCommandForContextInSession [
 	self assert: receivedCommand debugSessionHash equals: newDebuggerNotification sessionHash
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerClientTest >> testNewRemoteDebugger [
 
 	|presenter notification|
@@ -104,7 +105,7 @@ RedDebuggerClientTest >> testNewRemoteDebugger [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerClientTest >> testRegisterForNewDebuggerAnnouncements [
 
 	|presenter|
@@ -118,12 +119,12 @@ RedDebuggerClientTest >> testRegisterForNewDebuggerAnnouncements [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerClientTest >> testRegisteredDebuggers [
 	self assert: client registeredDebuggers isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerClientTest >> testServer [
 
 	| server answer notification |
@@ -145,7 +146,7 @@ RedDebuggerClientTest >> testServer [
 	self assert: notification remoteUrl equals: newDebuggerNotification remoteUrl
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerClientTest >> testStop [
 
 	self assert: client server isRunning.

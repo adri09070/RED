@@ -1,6 +1,6 @@
-Extension { #name : #RedDebugger }
+Extension { #name : 'RedDebugger' }
 
-{ #category : #'*Red-Tests' }
+{ #category : '*Red-Tests' }
 RedDebugger >> basicServer: anObject [
 
 	server := anObject

@@ -1,20 +1,21 @@
 Class {
-	#name : #RedRemoteCompiledCodeModelTest,
-	#superclass : #RedDebuggerTestCase,
+	#name : 'RedRemoteCompiledCodeModelTest',
+	#superclass : 'RedDebuggerTestCase',
 	#instVars : [
 		'compiledCode'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteCompiledCodeModelTest >> setUp [
 
 	super setUp.
 	compiledCode := debugSession interruptedContext compiledCode
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedRemoteCompiledCodeModelTest >> testVisitCompiledCodeBlock [
 
 	| model |
@@ -23,7 +24,7 @@ RedRemoteCompiledCodeModelTest >> testVisitCompiledCodeBlock [
 	self assertModel: model modelsCompiledCode: compiledCode
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedRemoteCompiledCodeModelTest >> testVisitCompiledCodeMethod [
 
 	| model |

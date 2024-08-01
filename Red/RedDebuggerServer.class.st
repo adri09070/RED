@@ -120,7 +120,7 @@ RedDebuggerServer >> notifyMasterForClosedDebugger: aDebugSessionHash [
 		put: self class closedRemoteDebuggerNotificationURL
 		data: (ZnEntity text: (STON toString:
 					  (self closedRemoteDebuggerNotificationFor: aDebugSessionHash))) ]
-		on: ConnectionTimedOut
+		on: NetworkError
 		do: [  ]
 ]
 

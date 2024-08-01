@@ -1,14 +1,15 @@
 Class {
-	#name : #RedRemoteDebuggerActionModelTest,
-	#superclass : #RedDebuggerTestCase,
+	#name : 'RedRemoteDebuggerActionModelTest',
+	#superclass : 'RedDebuggerTestCase',
 	#instVars : [
 		'client',
 		'actionModel'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #'factory method' }
+{ #category : 'factory method' }
 RedRemoteDebuggerActionModelTest >> instantiateRemoteActionModelForDebugger [
 
 	self assert: client registeredDebuggers size equals: 1.
@@ -23,7 +24,7 @@ RedRemoteDebuggerActionModelTest >> instantiateRemoteActionModelForDebugger [
 		               initialize
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> setUp [
 
 	super setUp.
@@ -34,7 +35,7 @@ RedRemoteDebuggerActionModelTest >> setUp [
 	debuggerServer registerAndNotifyNewDebugger: debugger
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> tearDown [
 
 	client stop.
@@ -42,7 +43,7 @@ RedRemoteDebuggerActionModelTest >> tearDown [
 	super tearDown
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> testProceed [
 
 	| process result dummyActionModel |
@@ -71,7 +72,7 @@ RedRemoteDebuggerActionModelTest >> testProceed [
 	self assert: debugSession interruptedContext isNil
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> testRemoteDebuggerActionModelInstantiation [
 
 	self instantiateRemoteActionModelForDebugger.
@@ -84,7 +85,7 @@ RedRemoteDebuggerActionModelTest >> testRemoteDebuggerActionModelInstantiation [
 	self assertCollection: actionModel stack equals: debugger stack
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> testRestartContextKeepsSameStackAsLocalDebugger [
 
 	| topContext topPC topModelContext context |
@@ -122,7 +123,7 @@ RedRemoteDebuggerActionModelTest >> testRestartContextKeepsSameStackAsLocalDebug
 	self assertCollection: actionModel stack equals: debugger stack
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> testStepIntoKeepsSameStackAsLocalDebugger [
 
 	self instantiateRemoteActionModelForDebugger.
@@ -148,7 +149,7 @@ RedRemoteDebuggerActionModelTest >> testStepIntoKeepsSameStackAsLocalDebugger [
 	self assertCollection: actionModel stack equals: debugger stack
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> testStepOverKeepsSameStackAsLocalDebugger [
 
 	| statements method |
@@ -170,7 +171,7 @@ RedRemoteDebuggerActionModelTest >> testStepOverKeepsSameStackAsLocalDebugger [
 	self assertCollection: actionModel stack equals: debugger stack
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> testStepThroughKeepsSameStackAsLocalDebugger [
 
 	| ast |
@@ -204,7 +205,7 @@ RedRemoteDebuggerActionModelTest >> testStepThroughKeepsSameStackAsLocalDebugger
 	self assertCollection: actionModel stack equals: debugger stack
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteDebuggerActionModelTest >> testTopContext [
 
 	self instantiateRemoteActionModelForDebugger.

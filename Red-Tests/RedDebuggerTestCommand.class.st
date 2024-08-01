@@ -2,17 +2,18 @@
 I am a remote test command, just there for test purposes.
 "
 Class {
-	#name : #RedDebuggerTestCommand,
-	#superclass : #RedDebuggerCommand,
-	#category : #'Red-Tests'
+	#name : 'RedDebuggerTestCommand',
+	#superclass : 'RedDebuggerCommand',
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #options }
+{ #category : 'options' }
 RedDebuggerTestCommand class >> route [
 	^'redTestCommand'
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 RedDebuggerTestCommand >> execute [
 	"I am a test command, I do nothing"
 ]

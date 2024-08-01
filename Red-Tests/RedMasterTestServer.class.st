@@ -2,27 +2,28 @@
 I provide a test server to simulate a remote master debugger. 
 "
 Class {
-	#name : #RedMasterTestServer,
-	#superclass : #Object,
+	#name : 'RedMasterTestServer',
+	#superclass : 'Object',
 	#instVars : [
 		'masterNotification'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedMasterTestServer >> masterNotification [
 
 	^ masterNotification
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedMasterTestServer >> url [
 
 	^ RedDebuggerServer remoteDebuggerMasterURL
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 RedMasterTestServer >> withServerDo: block route: aString port: port [
 
 	| server |

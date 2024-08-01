@@ -2,27 +2,28 @@
 I am a mock to test registration to announcements from RedDebuggerClient instances.
 "
 Class {
-	#name : #RedDebuggerClientPresenterMock,
-	#superclass : #Object,
+	#name : 'RedDebuggerClientPresenterMock',
+	#superclass : 'Object',
 	#instVars : [
 		'notification'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerClientPresenterMock >> newRemoteDebugger: anObject [
 
 	notification := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerClientPresenterMock >> notification [
 
 	^ notification
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RedDebuggerClientPresenterMock >> remoteDebuggerRemoved: anObject [
 
 	notification := anObject

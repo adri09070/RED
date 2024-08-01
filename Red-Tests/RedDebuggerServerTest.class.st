@@ -1,13 +1,14 @@
 Class {
-	#name : #RedDebuggerServerTest,
-	#superclass : #RedDebuggerTestCase,
+	#name : 'RedDebuggerServerTest',
+	#superclass : 'RedDebuggerTestCase',
 	#instVars : [
 		'masterNotification'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerServerTest >> testDebuggerAt [
 
 	debuggerServer registerNewDebugger: debugger.
@@ -16,7 +17,7 @@ RedDebuggerServerTest >> testDebuggerAt [
 		identicalTo: debugger
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerServerTest >> testNewRemoteDebuggerNotificationFor [
 
 	| notification |
@@ -30,7 +31,7 @@ RedDebuggerServerTest >> testNewRemoteDebuggerNotificationFor [
 		equals: debugger interruptedContext printString
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerServerTest >> testNotifyMasterForNewOpenedDebugger [
 
 	masterServer
@@ -42,7 +43,7 @@ RedDebuggerServerTest >> testNotifyMasterForNewOpenedDebugger [
 		port: RedDebuggerServer remoteDebuggerMasterPort
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerServerTest >> testRegisterAndNotifyNewDebugger [
 
 	masterServer
@@ -59,7 +60,7 @@ RedDebuggerServerTest >> testRegisterAndNotifyNewDebugger [
 		masterServer masterNotification
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerServerTest >> testRegisterNewDebugger [
 
 	self assertEmpty: debuggerServer debuggers.
@@ -70,7 +71,7 @@ RedDebuggerServerTest >> testRegisterNewDebugger [
 		identicalTo: debugger
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerServerTest >> testRemoveAndNotifyDebugger [
 
 	self assertEmpty: debuggerServer debuggers.
@@ -100,7 +101,7 @@ RedDebuggerServerTest >> testRemoveAndNotifyDebugger [
 	self assert: masterNotification remoteUrl equals: debuggerServer url
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerServerTest >> testRemoveDebugger [
 
 	self assertEmpty: debuggerServer debuggers.
@@ -112,7 +113,7 @@ RedDebuggerServerTest >> testRemoveDebugger [
 	self assertEmpty: debuggerServer debuggers
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerServerTest >> testRunningServer [
 		
 	self assert: debuggerServer server isRunning.

@@ -1,16 +1,17 @@
 Class {
-	#name : #RedDebuggerTestCase,
-	#superclass : #TestCase,
+	#name : 'RedDebuggerTestCase',
+	#superclass : 'TestCase',
 	#instVars : [
 		'debugSession',
 		'debugger',
 		'debuggerServer',
 		'masterServer'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 RedDebuggerTestCase >> assertModel: aCompiledCodeModel modelsCompiledCode: aCompiledCode [
 
 	self
@@ -40,7 +41,7 @@ RedDebuggerTestCase >> assertModel: aCompiledCodeModel modelsCompiledCode: aComp
 		identicalTo: aCompiledCode isDoIt
 ]
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 RedDebuggerTestCase >> assertModel: aModel modelsContext: aContext [
 
 	self assert: aModel contextHash equals: aContext hash.
@@ -56,7 +57,7 @@ RedDebuggerTestCase >> assertModel: aModel modelsContext: aContext [
 	self assert: aModel pc equals: aContext pc
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTestCase >> assertNewRemoteDebuggerAnnouncement: ann [
 
 	self assert: ann sessionHash equals: debugger debugSessionHash.
@@ -67,7 +68,7 @@ RedDebuggerTestCase >> assertNewRemoteDebuggerAnnouncement: ann [
 	self assert: ann remoteUrl equals: debuggerServer url
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTestCase >> assertStackModel: aStackModel modelsContextStacks: aStackOfContexts [
 
 	self assert: aStackModel size equals: aStackOfContexts size.
@@ -77,7 +78,7 @@ RedDebuggerTestCase >> assertStackModel: aStackModel modelsContextStacks: aStack
 			modelsContext: (debugSession stack at: i) ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedDebuggerTestCase >> setUp [
 
 	| dummyDebuggerActionModel |
@@ -100,7 +101,7 @@ RedDebuggerTestCase >> setUp [
 	masterServer := RedMasterTestServer new
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RedDebuggerTestCase >> tearDown [
 
 	debugSession ifNotNil: [ :d | d terminate ].

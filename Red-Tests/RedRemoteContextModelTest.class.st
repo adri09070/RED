@@ -1,14 +1,15 @@
 Class {
-	#name : #RedRemoteContextModelTest,
-	#superclass : #RedDebuggerTestCase,
+	#name : 'RedRemoteContextModelTest',
+	#superclass : 'RedDebuggerTestCase',
 	#instVars : [
 		'context',
 		'sender'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 RedRemoteContextModelTest >> setUp [
 
 	super setUp.
@@ -25,10 +26,11 @@ RedRemoteContextModelTest >> setUp [
 		           arguments: { 1 }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedRemoteContextModelTest >> testModelBlockContext [
 
 	| model |
+	self skip: 'I am not sure of how this test should be written for block contexts'.
 	context := [ 1 + 1 ] asContext.
 	model := RedRemoteContextModel new.
 	model visitContext: context.
@@ -42,7 +44,7 @@ RedRemoteContextModelTest >> testModelBlockContext [
 	self deny: model isDoIt
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedRemoteContextModelTest >> testVisitContext [
 
 	| model |

@@ -1,14 +1,15 @@
 Class {
-	#name : #RedDebuggerCommandTest,
-	#superclass : #RedDebuggerTestCase,
+	#name : 'RedDebuggerCommandTest',
+	#superclass : 'RedDebuggerTestCase',
 	#instVars : [
 		'command',
 		'result'
 	],
-	#category : #'Red-Tests'
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 RedDebuggerCommandTest >> setUp [
 
 	super setUp.
@@ -16,7 +17,7 @@ RedDebuggerCommandTest >> setUp [
 	debuggerServer registerNewDebugger: debugger
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerCommandTest >> testProceedCommand [
 
 	| process res resultContents |
@@ -44,7 +45,7 @@ RedDebuggerCommandTest >> testProceedCommand [
 	self assert: resultContents isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerCommandTest >> testRestartCommand [
 	|topContext topPC resultContents|	
 	debugSession stepInto.
@@ -79,7 +80,7 @@ RedDebuggerCommandTest >> testRestartCommand [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerCommandTest >> testStackCommand [
 	|resultContents|
 	debugSession stepInto.
@@ -100,7 +101,7 @@ RedDebuggerCommandTest >> testStackCommand [
 	self assertStackModel: resultContents modelsContextStacks: debugSession stack
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerCommandTest >> testStepIntoCommand [
 	|resultContents|
 	debugSession stepInto.
@@ -123,7 +124,7 @@ RedDebuggerCommandTest >> testStepIntoCommand [
 	self assertStackModel: resultContents modelsContextStacks: debugSession stack
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerCommandTest >> testStepOverCommand [
 	|resultContents statements method|
 	method := StTestDebuggerProvider >> #recursiveMethodCall.
@@ -148,7 +149,7 @@ RedDebuggerCommandTest >> testStepOverCommand [
 	self assertStackModel: resultContents modelsContextStacks: debugSession stack
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerCommandTest >> testStepThroughCommand [
 	|ast resultContents |	
 	debugSession terminate.	

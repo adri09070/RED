@@ -1,10 +1,11 @@
 Class {
-	#name : #RedDebuggerTest,
-	#superclass : #RedDebuggerTestCase,
-	#category : #'Red-Tests'
+	#name : 'RedDebuggerTest',
+	#superclass : 'RedDebuggerTestCase',
+	#category : 'Red-Tests',
+	#package : 'Red-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 RedDebuggerTest >> setUp [
 
 	super setUp.
@@ -13,7 +14,7 @@ RedDebuggerTest >> setUp [
 	debugSession stepInto
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testDebuggerRegistration [
 
 	masterServer
@@ -28,12 +29,12 @@ RedDebuggerTest >> testDebuggerRegistration [
 		masterServer masterNotification
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testDefaultDebuggerRank [
 	self assert: RedDebugger defaultDebuggerRank equals: 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testFindContextFromHash [
 
 	| stack |
@@ -50,7 +51,7 @@ RedDebuggerTest >> testFindContextFromHash [
 		raise: RedContextHashNotFound
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testInterruptedContext [
 
 	self
@@ -58,7 +59,7 @@ RedDebuggerTest >> testInterruptedContext [
 		identicalTo: debugSession interruptedContext
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testProceed [
 
 	| process result dummyActionModel |
@@ -79,7 +80,7 @@ RedDebuggerTest >> testProceed [
 	self assert: debugSession interruptedContext isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testRestartContext [
 	|topContext topPC|
 	topContext := debugger interruptedContext.
@@ -104,7 +105,7 @@ RedDebuggerTest >> testRestartContext [
 	self assert: debugger interruptedContext pc equals: topPC
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testStack [
 
 	|stack|
@@ -118,7 +119,7 @@ RedDebuggerTest >> testStack [
 	self assert: stack second contextHash equals: debugSession stack second hash
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testStepInto [
 
 	self
@@ -137,7 +138,7 @@ RedDebuggerTest >> testStepInto [
 		StTestDebuggerProvider >> #intermediateRecursiveMethodCall
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testStepOver [
 
 	| statements method |
@@ -154,7 +155,7 @@ RedDebuggerTest >> testStepOver [
 		identicalTo: statements last value
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RedDebuggerTest >> testStepThrough [
 
 	| ast |
